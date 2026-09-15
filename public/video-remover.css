@@ -219,6 +219,15 @@ body.video-remover-page {
   background: var(--gax-line);
 }
 
+/* Two portrait panes side by side are 9:8, not 16:9.  Keeping this geometry
+   preserves the full 9:16 frame and avoids the broad black side bars. */
+.compare-player[data-orientation="portrait"] {
+  width: min(100%, 760px);
+  min-height: 0;
+  margin-inline: auto;
+  aspect-ratio: 9 / 8;
+}
+
 .compare-pane {
   position: relative;
   min-width: 0;

@@ -52,7 +52,19 @@ test('video preview comparison panes should show the full frame without cropping
   assert.match(videoRule, /width:\s*100%;/);
   assert.match(videoRule, /height:\s*100%;/);
   assert.match(videoRule, /object-fit:\s*contain;/);
-  assert.doesNotMatch(videoRule, /object-fit:\s*cover;/);
+    assert.doesNotMatch(videoRule, /object-fit:\s*cover;/);
+});
+
+test('video preview should switch to portrait comparison geometry for 9:16 files', () => {
+  const css = readFileSync(new URL('../../public/video-remover.css', import.meta.url), 'utf8');
+  const source = readFileSync(new URL('../../src/video-app.js', import.meta.url), 'utf8');
+  const portraitRule = css.match(/\.compare-player\[data-orientation="portrait"\]\s*\{[^}]+\}/)?.[0] ?? '';
+
+  assert.match(portraitRule, /width:\s*min\(100%,\s*760px\);/);
+  assert.match(portraitRule, /min-height:\s*0;/);
+  assert.match(portraitRule, /aspect-ratio:\s*9\s*\/\s*8;/);
+  assert.match(source, /function updateComparisonOrientation/);
+  assert.match(source, /dataset\.orientation = 'portrait'/);
 });
 
 test('video preview detection should yield to the browser while reporting progress', () => {

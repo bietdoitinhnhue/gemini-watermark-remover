@@ -466,6 +466,27 @@ function updateCompareMode() {
     els.processedEmpty.hidden = hasAfter;
 }
 
+function updateComparisonOrientation(metadata = state.metadata) {
+    if (metadata && metadata.height > metadata.width) {
+        els.comparePlayer.dataset.orientation = 'portrait';
+        return;
+    }
+    delete els.comparePlayer.dataset.orientation;
+}
+
+function reportVideoDetection(detection, metadata = state.metadata) {
+    if (!detection || !metadata) return;
+    const best = detection.summary?.best || {};
+    console.info('[gax-video] detection', {
+        dimensions: `${metadata.width}x${metadata.height}`,
+        orientation: metadata.height > metadata.width ? 'portrait' : 'landscape',
+        candidate: best.candidateId || detection.candidate?.id || detection.template?.id || 'unknown',
+        position: detection.position,
+        confidence: best.meanConfidence ?? best.meanNcc ?? null,
+        isConfident: detection.isConfident
+    });
+}
+
 function syncProcessedToOriginal({ force = false } = {}) {
     if (!hasPlayableProcessed() || state.syncingPlayback) return;
     const targetTime = Number(els.originalVideo.currentTime) || 0;
@@ -609,6 +630,7 @@ async function setFile(file) {
     state.detection = null;
     state.processedUrl = null;
     state.jobId++;
+    updateComparisonOrientation(null);
 
     state.originalUrl = URL.createObjectURL(file);
     els.originalVideo.src = state.originalUrl;
@@ -628,6 +650,7 @@ async function setFile(file) {
     try {
         const metadata = await inspectGeminiVideoFile(file);
         state.metadata = metadata;
+        updateComparisonOrientation(metadata);
         renderMetadata(metadata);
         applyAutomaticPreset(null, metadata, { silent: true });
         setStatus(t('videoLoaded'));
@@ -695,8 +718,10 @@ async function runDetection() {
         if (jobId !== state.jobId) return;
         state.metadata = result.metadata;
         state.detection = result.detection;
+        updateComparisonOrientation(result.metadata);
         renderMetadata(result.metadata);
         renderDetection(result.detection);
+        reportVideoDetection(result.detection, result.metadata);
         setProgress(1, result.detection.isConfident ? t('progressDone') : t('lowConfidence'));
         const preset = applyAutomaticPreset(result.detection, result.metadata, { silent: true });
         if (preset.id === 'relocated-review') {
@@ -740,8 +765,10 @@ async function runExport() {
             if (jobId !== state.jobId) return;
             state.metadata = detected.metadata;
             state.detection = detected.detection;
+            updateComparisonOrientation(detected.metadata);
             renderMetadata(detected.metadata);
             renderDetection(detected.detection);
+            reportVideoDetection(detected.detection, detected.metadata);
             detectionPayload = { metadata: detected.metadata, detection: detected.detection };
             applyAutomaticPreset(detected.detection, detected.metadata, { silent: true });
         } else {
@@ -794,11 +821,13 @@ async function runExport() {
                 };
                 if (metadata) {
                     state.metadata = metadata;
+                    updateComparisonOrientation(metadata);
                     renderMetadata(metadata);
                 }
                 if (detection) {
                     state.detection = detection;
                     renderDetection(detection);
+                    reportVideoDetection(detection, metadata || state.metadata);
                 }
                 if (phase === 'detect') {
                     setProgress(progress * 0.12, progress >= 1 ? t('progressDone') : t('detecting'));
@@ -848,6 +877,7 @@ function reset() {
     state.metadata = null;
     state.detection = null;
     state.running = false;
+    updateComparisonOrientation(null);
     els.fileInput.value = '';
     els.originalVideo.removeAttribute('src');
     els.originalVideo.load();

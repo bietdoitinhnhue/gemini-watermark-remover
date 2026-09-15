@@ -200,6 +200,40 @@ test('detectVideoWatermarkFromFrames should auto-select a legacy alpha shape for
     }));
 });
 
+test('detectVideoWatermarkFromFrames should detect a 1440x2560 portrait standard mark', () => {
+    const width = 1440;
+    const height = 2560;
+    const target = resolveVideoWatermarkCandidates(width, height)
+        .find((candidate) => candidate.id === 'veo-portrait-standard');
+    const alphaMap = getVideoAlphaMap(target.size, { candidate: target });
+    const frames = [];
+
+    for (let i = 0; i < 3; i++) {
+        const imageData = createPatternImageData(width, height);
+        applyWhiteWatermark(imageData, alphaMap, {
+            x: target.x,
+            y: target.y,
+            width: target.size,
+            height: target.size
+        });
+        frames.push({ timestamp: i / 24, imageData });
+    }
+
+    const result = detectVideoWatermarkFromFrames({
+        frames,
+        width,
+        height,
+        candidates: [target],
+        minConfidence: 0.02
+    });
+
+    assert.equal(result.candidate.id, target.id);
+    assert.equal(result.position.x, 1200);
+    assert.equal(result.position.y, 2320);
+    assert.equal(result.position.width, 96);
+    assert.equal(result.isConfident, true);
+});
+
 test('detectVideoWatermarkFromFrames should auto-select legacy alpha on 20260619 relocated ROI fixtures', async () => {
     const fixtureDir = path.resolve('tests/fixtures/video-relocated-alpha/20260619');
     const frames = [];

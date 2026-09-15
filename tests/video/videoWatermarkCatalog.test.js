@@ -163,6 +163,75 @@ test('resolveVideoWatermarkCandidates should expose confirmed 720x1280 vertical 
     );
 });
 
+test('resolveVideoWatermarkCandidates should scale portrait anchors from the short edge', () => {
+    const candidates = resolveVideoWatermarkCandidates(1440, 2560);
+
+    assert.deepEqual(
+        candidates.map((candidate) => ({
+            id: candidate.id,
+            x: candidate.x,
+            y: candidate.y,
+            size: candidate.size,
+            marginRight: candidate.marginRight,
+            marginBottom: candidate.marginBottom,
+            sourceResolution: candidate.sourceResolution,
+            sourceFamily: candidate.sourceFamily
+        })),
+        [
+            {
+                id: 'veo-portrait-standard',
+                x: 1200,
+                y: 2320,
+                size: 96,
+                marginRight: 144,
+                marginBottom: 144,
+                sourceResolution: '1080x1920',
+                sourceFamily: 'portrait-projected'
+            },
+            {
+                id: 'veo-portrait-relocated',
+                x: 1152,
+                y: 2272,
+                size: 96,
+                marginRight: 192,
+                marginBottom: 192,
+                sourceResolution: '1080x1920',
+                sourceFamily: 'portrait-projected'
+            },
+            {
+                id: 'veo-portrait-animated-compact',
+                x: 1296,
+                y: 2416,
+                size: 48,
+                marginRight: 96,
+                marginBottom: 96,
+                sourceResolution: '1080x1920',
+                sourceFamily: 'portrait-projected'
+            },
+            {
+                id: 'veo-portrait-vertical-inset',
+                x: 1166,
+                y: 2298,
+                size: 70,
+                marginRight: 204,
+                marginBottom: 192,
+                sourceResolution: '1080x1920',
+                sourceFamily: 'portrait-projected'
+            },
+            {
+                id: 'veo-portrait-compact',
+                x: 1294,
+                y: 2392,
+                size: 88,
+                marginRight: 58,
+                marginBottom: 80,
+                sourceResolution: '1080x1920',
+                sourceFamily: 'portrait-projected'
+            }
+        ]
+    );
+});
+
 test('resolveVideoWatermarkCandidates should merge projected reference anchors with exact-size exceptions', () => {
     const candidates = resolveVideoWatermarkCandidates(1280, 720);
     const byId = new Map(candidates.map((candidate) => [candidate.id, candidate]));

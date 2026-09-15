@@ -1,5 +1,7 @@
 const REFERENCE_WIDTH = 1920;
 const REFERENCE_HEIGHT = 1080;
+const PORTRAIT_REFERENCE_WIDTH = 1080;
+const PORTRAIT_REFERENCE_HEIGHT = 1920;
 
 const REFERENCE_CANDIDATES = [
     {
@@ -15,6 +17,52 @@ const REFERENCE_CANDIDATES = [
         size: 72,
         marginRight: 144,
         marginBottom: 144
+    }
+];
+
+// Portrait Gemini/Veo exports use the 1080px short edge as their sizing
+// reference.  Scaling these anchors from a 16:9 frame makes the ROI too small
+// on 9:16 videos (for example, 1440x2560 incorrectly became a 54px ROI).
+const PORTRAIT_REFERENCE_CANDIDATES = [
+    {
+        id: 'veo-portrait-standard',
+        label: 'portrait standard, 72px, margin 108',
+        size: 72,
+        marginRight: 108,
+        marginBottom: 108,
+        sourcePriority: 0
+    },
+    {
+        id: 'veo-portrait-relocated',
+        label: 'portrait relocated, 72px, margin 144',
+        size: 72,
+        marginRight: 144,
+        marginBottom: 144,
+        sourcePriority: 1
+    },
+    {
+        id: 'veo-portrait-animated-compact',
+        label: 'portrait animated compact, 36px, margin 72',
+        size: 36,
+        marginRight: 72,
+        marginBottom: 72,
+        sourcePriority: 2
+    },
+    {
+        id: 'veo-portrait-vertical-inset',
+        label: 'portrait vertical inset, 52.5px, margin 153/144',
+        size: 52.5,
+        marginRight: 153,
+        marginBottom: 144,
+        sourcePriority: 3
+    },
+    {
+        id: 'veo-portrait-compact',
+        label: 'portrait compact, 66px, margin 43.5/60',
+        size: 66,
+        marginRight: 43.5,
+        marginBottom: 60,
+        sourcePriority: 4
     }
 ];
 
@@ -102,22 +150,36 @@ function videoSizeKey(width, height) {
 }
 
 function getProjectedReferenceCandidates(width, height) {
-    const scale = Math.min(width / REFERENCE_WIDTH, height / REFERENCE_HEIGHT);
-    const referenceSize = isReferenceGeminiVideoSize(width, height);
-    const overrides = EXACT_PROJECTED_CANDIDATE_OVERRIDES_BY_SIZE[videoSizeKey(width, height)] || {};
+    const portrait = height > width;
+    const hasExplicitPortraitCandidates = portrait && (
+        (width === PORTRAIT_REFERENCE_WIDTH && height === PORTRAIT_REFERENCE_HEIGHT) ||
+        (width === 720 && height === 1280)
+    );
+    if (hasExplicitPortraitCandidates) return [];
 
-    return REFERENCE_CANDIDATES
+    const referenceWidth = portrait ? PORTRAIT_REFERENCE_WIDTH : REFERENCE_WIDTH;
+    const referenceHeight = portrait ? PORTRAIT_REFERENCE_HEIGHT : REFERENCE_HEIGHT;
+    const sourceCandidates = portrait ? PORTRAIT_REFERENCE_CANDIDATES : REFERENCE_CANDIDATES;
+    const scale = Math.min(width / referenceWidth, height / referenceHeight);
+    const referenceSize = !portrait && isReferenceGeminiVideoSize(width, height);
+    const overrides = portrait
+        ? {}
+        : (EXACT_PROJECTED_CANDIDATE_OVERRIDES_BY_SIZE[videoSizeKey(width, height)] || {});
+
+    return sourceCandidates
         .map((candidate, index) => {
             const override = overrides[candidate.id] || {};
             return withVideoBounds(buildCandidate(candidate, width, height, scale, {
                 referenceSize,
                 scaledFromReference: !referenceSize,
                 sourceCandidateId: candidate.id,
-                sourceResolution: `${REFERENCE_WIDTH}x${REFERENCE_HEIGHT}`,
+                sourceResolution: `${referenceWidth}x${referenceHeight}`,
                 sourceScale: scale,
-                sourceFamily: referenceSize ? 'reference-exact' : 'reference-projected',
+                sourceFamily: portrait
+                    ? 'portrait-projected'
+                    : (referenceSize ? 'reference-exact' : 'reference-projected'),
                 evidenceGate: 'standard',
-                sourcePriority: override.sourcePriority ?? index,
+                sourcePriority: override.sourcePriority ?? candidate.sourcePriority ?? index,
                 ...override
             }), width, height);
         })
