@@ -200,38 +200,53 @@ test('detectVideoWatermarkFromFrames should auto-select a legacy alpha shape for
     }));
 });
 
-test('detectVideoWatermarkFromFrames should detect a 1440x2560 portrait standard mark', () => {
-    const width = 1440;
-    const height = 2560;
-    const target = resolveVideoWatermarkCandidates(width, height)
-        .find((candidate) => candidate.id === 'veo-portrait-standard');
-    const alphaMap = getVideoAlphaMap(target.size, { candidate: target });
-    const frames = [];
+test('detectVideoWatermarkFromFrames should select the supported 16:9 and 9:16 anchors', () => {
+    const scenarios = [
+        {
+            label: '1920x1080 landscape',
+            width: 1920,
+            height: 1080,
+            candidateId: 'veo-1080p-standard',
+            position: { x: 1740, y: 900, width: 72, height: 72 }
+        },
+        {
+            label: '1440x2560 portrait',
+            width: 1440,
+            height: 2560,
+            candidateId: 'veo-portrait-standard',
+            position: { x: 1200, y: 2320, width: 96, height: 96 }
+        }
+    ];
 
-    for (let i = 0; i < 3; i++) {
-        const imageData = createPatternImageData(width, height);
-        applyWhiteWatermark(imageData, alphaMap, {
-            x: target.x,
-            y: target.y,
-            width: target.size,
-            height: target.size
+    for (const scenario of scenarios) {
+        const candidates = resolveVideoWatermarkCandidates(scenario.width, scenario.height);
+        const target = candidates.find((candidate) => candidate.id === scenario.candidateId);
+        const alphaMap = getVideoAlphaMap(target.size, { candidate: target });
+        const frames = [];
+
+        for (let i = 0; i < 2; i++) {
+            const imageData = createPatternImageData(scenario.width, scenario.height);
+            applyWhiteWatermark(imageData, alphaMap, {
+                x: target.x,
+                y: target.y,
+                width: target.size,
+                height: target.size
+            });
+            frames.push({ timestamp: i / 24, imageData });
+        }
+
+        const result = detectVideoWatermarkFromFrames({
+            frames,
+            width: scenario.width,
+            height: scenario.height,
+            candidates,
+            minConfidence: 0.02
         });
-        frames.push({ timestamp: i / 24, imageData });
+
+        assert.equal(result.candidate.id, scenario.candidateId, scenario.label);
+        assert.deepEqual(result.position, scenario.position, scenario.label);
+        assert.equal(result.isConfident, true, scenario.label);
     }
-
-    const result = detectVideoWatermarkFromFrames({
-        frames,
-        width,
-        height,
-        candidates: [target],
-        minConfidence: 0.02
-    });
-
-    assert.equal(result.candidate.id, target.id);
-    assert.equal(result.position.x, 1200);
-    assert.equal(result.position.y, 2320);
-    assert.equal(result.position.width, 96);
-    assert.equal(result.isConfident, true);
 });
 
 test('detectVideoWatermarkFromFrames should auto-select legacy alpha on 20260619 relocated ROI fixtures', async () => {

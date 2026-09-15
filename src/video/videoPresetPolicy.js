@@ -82,7 +82,9 @@ export function getStandardAutoPresetConfig() {
         residualCleanupStrength: DEFAULT_AUTO_AI_RESIDUAL_CLEANUP_STRENGTH,
         sampleCount: DEFAULT_AUTO_SAMPLE_COUNT,
         videoBitrateMbps: '',
-        allowLowConfidence: false
+        // Export the best matching supported anchor instead of blocking users
+        // on a confidence warning. The UI still surfaces that warning.
+        allowLowConfidence: true
     };
 }
 

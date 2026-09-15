@@ -72,6 +72,7 @@ test('getAutomaticVideoPresetConfig should keep normal detections on conservativ
     assert.equal(preset.denoiseBackend, VIDEO_DENOISE_BACKENDS.ALLENK_FDNCNN_BROWSER_SPIKE);
     assert.equal(preset.edgeDenoiseStrength, 1.8);
     assert.equal(preset.residualCleanupStrength, 0.4);
+    assert.equal(preset.allowLowConfidence, true);
     assert.deepEqual(preset, getStandardAutoPresetConfig());
 });
 
@@ -86,7 +87,32 @@ test('getAutomaticVideoPresetConfig should tune cleanup for Veo text detections'
     assert.equal(preset.denoiseBackend, VIDEO_DENOISE_BACKENDS.ALLENK_FDNCNN_BROWSER_SPIKE);
     assert.equal(preset.edgeDenoiseStrength, 1.45);
     assert.equal(preset.residualCleanupStrength, 0.9);
-    assert.equal(preset.allowLowConfidence, false);
+    assert.equal(preset.allowLowConfidence, true);
+});
+
+test('getAutomaticVideoPresetConfig should keep best-effort export enabled for 16:9 and 9:16', () => {
+    const scenarios = [
+        {
+            label: '16:9',
+            metadata: { width: 1920, height: 1080 },
+            position: { width: 72, marginRight: 108, marginBottom: 108 }
+        },
+        {
+            label: '9:16',
+            metadata: { width: 1440, height: 2560 },
+            position: { width: 96, marginRight: 144, marginBottom: 144 }
+        }
+    ];
+
+    for (const scenario of scenarios) {
+        const preset = getAutomaticVideoPresetConfig({
+            isConfident: false,
+            position: scenario.position
+        }, scenario.metadata);
+
+        assert.equal(preset.id, 'standard-auto', scenario.label);
+        assert.equal(preset.allowLowConfidence, true, scenario.label);
+    }
 });
 
 test('getAutomaticVideoPresetConfig should switch relocated detections to review preset', () => {

@@ -467,11 +467,13 @@ function updateCompareMode() {
 }
 
 function updateComparisonOrientation(metadata = state.metadata) {
-    if (metadata && metadata.height > metadata.width) {
-        els.comparePlayer.dataset.orientation = 'portrait';
+    if (!metadata) {
+        delete els.comparePlayer.dataset.orientation;
         return;
     }
-    delete els.comparePlayer.dataset.orientation;
+    els.comparePlayer.dataset.orientation = metadata.height > metadata.width
+        ? 'portrait'
+        : 'landscape';
 }
 
 function reportVideoDetection(detection, metadata = state.metadata) {
