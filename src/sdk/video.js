@@ -29,7 +29,7 @@ function isHttpUrl(value) {
 }
 
 export function resolveDefaultVideoPreviewPage({ moduleUrl = import.meta.url } = {}) {
-    return fileURLToPath(new URL('../../dist/video-preview.html', moduleUrl));
+    return fileURLToPath(new URL('../../dist/video-remover.html', moduleUrl));
 }
 
 async function assertReadableFile(filePath, label) {
@@ -63,7 +63,7 @@ async function createLocalVideoPreviewServer(rootDir) {
     const server = createServer(async (request, response) => {
         try {
             const url = new URL(request.url || '/', 'http://127.0.0.1');
-            const requestPath = decodeURIComponent(url.pathname === '/' ? '/video-preview.html' : url.pathname);
+            const requestPath = decodeURIComponent(url.pathname === '/' ? '/video-remover.html' : url.pathname);
             const targetPath = path.resolve(rootPath, `.${requestPath}`);
             if (!isPathInsideRoot(targetPath, rootPath)) {
                 response.writeHead(403);

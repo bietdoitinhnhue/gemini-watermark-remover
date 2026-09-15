@@ -7,7 +7,7 @@ import { mkdir, mkdtemp, rm } from 'node:fs/promises';
 import { packProjectTarball, runCommand } from './testUtils.js';
 
 const REQUIRED_DIST_PACKAGE_FILES = [
-    'package/dist/video-preview.html',
+    'package/dist/video-remover.html',
     'package/dist/video-app.js',
     'package/dist/models/allenk-fdncnn/onnx-manifest.json',
     'package/dist/models/allenk-fdncnn/model_core_fp32_86x74.onnx',

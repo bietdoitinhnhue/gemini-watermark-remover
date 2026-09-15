@@ -9,7 +9,7 @@ import {
     withLocalStaticPreviewPage
 } from './local-static-preview-server.js';
 
-const DEFAULT_PAGE_PATH = path.resolve('dist/video-preview.html');
+const DEFAULT_PAGE_PATH = path.resolve('dist/video-remover.html');
 const DEFAULT_DENOISE_BACKEND = 'none';
 
 function parseArgs(argv) {
@@ -111,7 +111,7 @@ Options:
   --allenk-fdncnn-padding <n>  Optional AI denoise padding override
   --video-bitrate <bps>        Optional output bitrate in bits per second
   --allow-low-confidence       Allow export when detector confidence is low
-  --page <dist html path>      Defaults to dist/video-preview.html
+  --page <dist html path>      Defaults to dist/video-remover.html
   --timeout-ms <ms>            Defaults to 360000
 `);
 }

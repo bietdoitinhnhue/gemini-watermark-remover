@@ -2,6 +2,14 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "buildCommand": "pnpm build",
   "outputDirectory": "dist",
+  "cleanUrls": true,
+  "redirects": [
+    {
+      "source": "/video-preview",
+      "destination": "/video-remover",
+      "permanent": true
+    }
+  ],
   "headers": [
     {
       "source": "/(.*)",

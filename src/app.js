@@ -301,11 +301,11 @@ async function routeVideoFile(file) {
     try {
         showLoading(TEXT.handoffVideo);
         await saveDebugFileHandoff(file, 'video');
-        window.location.assign('./video-preview.html?fileHandoff=1');
+        window.location.assign('./video-remover?fileHandoff=1');
     } catch (error) {
         hideLoading();
         console.error(error);
-        setStatusMessage(error.message || '无法进入视频调试流程，请打开视频页后重新选择文件。', 'warn');
+        setStatusMessage(error.message || 'Could not open the video workspace. Please choose the file again from the video page.', 'warn');
     }
 }
 

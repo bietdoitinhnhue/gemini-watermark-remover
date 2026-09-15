@@ -15,7 +15,7 @@ test('resolveDefaultVideoPreviewPage should resolve packaged dist relative to sd
         moduleUrl: new URL('../../src/sdk/video.js', import.meta.url).href
     });
 
-    assert.equal(resolved, path.resolve('dist/video-preview.html'));
+    assert.equal(resolved, path.resolve('dist/video-remover.html'));
 });
 
 test('withLocalVideoPreviewPage should serve local preview assets over http', async () => {

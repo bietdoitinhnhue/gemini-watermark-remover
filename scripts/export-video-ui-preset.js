@@ -9,7 +9,7 @@ import {
     withLocalStaticPreviewPage
 } from './local-static-preview-server.js';
 
-const DEFAULT_PAGE_PATH = path.resolve('dist/video-preview.html');
+const DEFAULT_PAGE_PATH = path.resolve('dist/video-remover.html');
 const PRESET_BUTTON_SELECTOR = '#relocatedReviewPresetBtn';
 
 function defaultArtifactPath(outputPath, suffix) {
@@ -60,7 +60,7 @@ function printHelp() {
   node scripts/export-video-ui-preset.js --input <video.mp4> --output <out.mp4> [options]
 
 Options:
-  --page <dist html path>      Defaults to dist/video-preview.html
+  --page <dist html path>      Defaults to dist/video-remover.html
   --report <json path>         Defaults to <output-name>-ui-preset-report.json
   --markdown <md path>         Defaults to <output-name>-ui-preset-report.md
   --screenshot-dir <dir>       Defaults to the output directory

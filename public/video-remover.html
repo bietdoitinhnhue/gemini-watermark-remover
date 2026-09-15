@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#07101f">
+  <meta name="description" content="GrowthAutomationX browser-local Gemini logo remover for supported video files.">
+  <title>GrowthAutomationX — Gemini Logo Remover</title>
+  <link rel="stylesheet" href="growthautomationx.css">
+  <link rel="stylesheet" href="video-remover.css">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%230b1020'/%3E%3Cpath d='M14 37.5 28 18l8 12 7-8 8 15.5' fill='none' stroke='%23d5ff65' stroke-width='6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+</head>
+<body class="video-remover-page">
+  <header class="site-header">
+    <a class="brand" href="/" aria-label="GrowthAutomationX home">
+      <span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span>
+      <span>Growth<span>Automation</span>X</span>
+    </a>
+    <nav class="video-nav" aria-label="Primary navigation">
+      <a href="/" data-i18n="nav.image">Image remover</a>
+      <a href="/video-remover" aria-current="page" data-i18n="nav.video">Gemini Logo Remover</a>
+      <a href="#how-it-works" data-i18n="nav.how">How it works</a>
+    </nav>
+    <div class="language-switcher" role="group" aria-label="Language selector">
+      <button type="button" data-locale="en" aria-pressed="true">EN</button>
+      <button type="button" data-locale="vi" aria-pressed="false">VI</button>
+    </div>
+  </header>
+
+  <main class="video-main">
+    <section class="video-hero" aria-labelledby="video-title">
+      <div>
+        <p class="video-kicker" data-i18n="hero.kicker">Browser-local video tool</p>
+        <h1 id="video-title" data-i18n-html="hero.title">Remove the <em>Gemini logo</em><br>from your video.</h1>
+      </div>
+      <div>
+        <p class="video-hero-lede" data-i18n="hero.lede">Select a supported video, let the browser detect the visible Gemini/Veo mark, then export a processed copy. Your media stays on this device while it is processed.</p>
+        <div class="video-hero-points" aria-label="Key benefits">
+          <span data-i18n="hero.pointOne">Local processing</span>
+          <span data-i18n="hero.pointTwo">Before / after review</span>
+          <span data-i18n="hero.pointThree">MP4 export</span>
+        </div>
+      </div>
+    </section>
+
+    <section id="workspace" class="video-workspace" aria-label="Gemini Logo Remover workspace">
+      <section class="video-panel" aria-label="Video comparison">
+        <div class="video-panel-head">
+          <h2 data-i18n="workspace.comparison">Before / after comparison</h2>
+          <p id="progressText" data-i18n="workspace.waiting">Waiting for a video</p>
+        </div>
+        <div id="comparePlayer" class="compare-player">
+          <div class="compare-pane">
+            <video id="originalVideo" playsinline preload="metadata"></video>
+            <span class="badge" data-i18n="workspace.before">Before</span>
+            <div id="originalEmpty" class="empty" data-i18n="workspace.originalEmpty">Choose or drop a video to start.</div>
+          </div>
+          <div class="compare-pane">
+            <video id="processedVideo" playsinline preload="metadata" muted></video>
+            <span id="afterBadge" class="badge after" hidden data-i18n="workspace.after">After</span>
+            <div id="processedEmpty" class="empty" data-i18n="workspace.processedEmpty">Your processed video will appear here.</div>
+          </div>
+        </div>
+        <div class="compare-controls">
+          <button id="playPauseBtn" class="play-toggle" type="button" data-playing="false" aria-label="Play" disabled></button>
+          <input id="scrubber" type="range" min="0" max="1000" value="0" aria-label="Playback position" disabled>
+          <span id="timeLabel" class="time-label">0:00</span>
+        </div>
+      </section>
+
+      <aside class="video-side" aria-label="Video processing controls">
+        <section class="video-action-card">
+          <div id="dropzone" class="dropzone" data-dragging="false" role="button" tabindex="0" aria-label="Select a video file">
+            <span class="dropzone-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 16V4m0 0L7.5 8.5M12 4l4.5 4.5M5 14.5v3A2.5 2.5 0 0 0 7.5 20h9a2.5 2.5 0 0 0 2.5-2.5v-3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            <strong data-i18n="upload.title">Choose a video</strong>
+            <span data-i18n="upload.subtitle">Click or drag MP4, WebM, or MOV here</span>
+            <input id="fileInput" type="file" accept="video/mp4,video/webm,video/quicktime,video/*" hidden>
+          </div>
+
+          <p class="action-label" data-i18n="actions.label">Automatic cleanup</p>
+          <div id="autoPresetSummary" class="status" data-tone="info">
+            <strong data-i18n="auto.title">AI automatic cleanup</strong>
+            <span data-i18n="auto.copy">Choose a video to detect the visible mark and prepare the best local preset.</span>
+          </div>
+          <div class="progress" aria-label="Processing progress"><span id="progressBar"></span></div>
+          <div id="status" class="status" data-tone="info"></div>
+
+          <div class="actions">
+            <button id="detectBtn" type="button" data-i18n="actions.detect">Detect mark</button>
+            <button id="resetBtn" type="button" data-i18n="actions.reset">Reset</button>
+            <button id="processBtn" class="primary" type="button" data-i18n="actions.process">Process video</button>
+            <a id="downloadBtn" class="download-link" aria-disabled="true" data-i18n="actions.download">Download MP4</a>
+          </div>
+        </section>
+
+        <section class="video-info-card">
+          <h3 data-i18n="info.video">Video information</h3>
+          <div id="metadata"><p class="muted" data-i18n="info.waiting">Waiting for a video.</p></div>
+        </section>
+
+        <section class="video-info-card">
+          <h3 data-i18n="info.detection">Detection result</h3>
+          <div id="detection"><p class="muted" data-i18n="info.detectFirst">Detect a mark or process directly.</p></div>
+        </section>
+
+        <details class="advanced-options">
+          <summary data-i18n="advanced.title">Advanced video options</summary>
+          <div class="advanced-grid">
+            <div class="field">
+              <label for="alphaGain"><span data-i18n="advanced.alpha">Alpha gain</span><span id="alphaGainValue">1.00</span></label>
+              <input id="alphaGain" type="range" min="0.25" max="1.35" step="0.05">
+            </div>
+            <label class="check"><input id="adaptiveAlpha" type="checkbox"><span data-i18n="advanced.adaptive">Adaptive alpha</span></label>
+            <label class="check"><input id="highQualityCleanup" type="checkbox"><span data-i18n="advanced.quality">High-quality cleanup</span></label>
+            <div class="field">
+              <label for="denoiseBackend"><span data-i18n="advanced.denoise">Cleanup model</span></label>
+              <select id="denoiseBackend">
+                <option value="none" data-i18n="denoise.none">Off</option>
+                <option value="canvas-edge-denoise" data-i18n="denoise.edge">Canvas edge denoise</option>
+                <option value="canvas-edge-band-denoise" data-i18n="denoise.band">Canvas edge-band denoise</option>
+                <option value="canvas-edge-core-denoise" data-i18n="denoise.core">Canvas core denoise</option>
+                <option value="canvas-footprint-polish" data-i18n="denoise.polish">Canvas footprint polish</option>
+                <option value="canvas-temporal-delta-stabilize" data-i18n="denoise.delta">Canvas temporal delta stabilizer</option>
+                <option value="canvas-temporal-match-delta-stabilize" data-i18n="denoise.match">Canvas temporal match stabilizer</option>
+                <option value="canvas-temporal-stabilize" data-i18n="denoise.temporal">Canvas temporal stabilizer</option>
+                <option value="canvas-texture-repair" data-i18n="denoise.texture">Canvas texture repair</option>
+                <option value="allenk-fdncnn-browser-spike" data-i18n="denoise.ai">AI FDnCNN ONNX</option>
+              </select>
+            </div>
+            <div class="preset-row"><button id="relocatedReviewPresetBtn" type="button" data-i18n="advanced.review">Apply review preset</button></div>
+            <div class="field">
+              <label for="edgeDenoiseStrength"><span data-i18n="advanced.edge">Edge cleanup</span><span id="edgeDenoiseStrengthValue">0.25</span></label>
+              <input id="edgeDenoiseStrength" type="range" min="0" max="1" step="0.05">
+            </div>
+            <div class="field">
+              <label for="residualCleanup"><span data-i18n="advanced.residual">Residual cleanup</span><span id="residualCleanupValue">1.50</span></label>
+              <input id="residualCleanup" type="range" min="0" max="1.80" step="0.05">
+            </div>
+            <div class="field">
+              <label for="sampleCount"><span data-i18n="advanced.samples">Sample frames</span></label>
+              <input id="sampleCount" type="number" min="4" max="24" step="1">
+            </div>
+            <div class="field">
+              <label for="videoBitrateMbps"><span data-i18n="advanced.bitrate">Export bitrate (Mbps)</span></label>
+              <input id="videoBitrateMbps" type="number" min="1" max="80" step="0.5">
+            </div>
+            <label class="check"><input id="allowLowConfidence" type="checkbox"><span data-i18n="advanced.lowConfidence">Allow low-confidence export</span></label>
+          </div>
+        </details>
+      </aside>
+    </section>
+
+    <section id="how-it-works" class="how-it-works" aria-labelledby="how-title">
+      <p data-i18n="how.kicker">How it works</p>
+      <h2 id="how-title" data-i18n="how.title">A simple local workflow for supported video.</h2>
+      <div class="step-grid">
+        <article><span>01</span><h3 data-i18n="how.stepOneTitle">Add a video</h3><p data-i18n="how.stepOneCopy">Select an MP4, WebM, or MOV file from your device.</p></article>
+        <article><span>02</span><h3 data-i18n="how.stepTwoTitle">Detect &amp; process</h3><p data-i18n="how.stepTwoCopy">The browser samples frames, locates the supported mark, and processes frames locally.</p></article>
+        <article><span>03</span><h3 data-i18n="how.stepThreeTitle">Review &amp; export</h3><p data-i18n="how.stepThreeCopy">Compare the two players, then download the processed MP4 when it is ready.</p></article>
+      </div>
+    </section>
+  </main>
+
+  <footer class="video-footer" data-i18n="footer">GrowthAutomationX · Local browser processing · Results depend on the source video and visible mark.</footer>
+
+  <script>
+    (() => {
+      const copy = {
+        en: {
+          pageTitle: 'GrowthAutomationX — Gemini Logo Remover',
+          'nav.image': 'Image remover', 'nav.video': 'Gemini Logo Remover', 'nav.how': 'How it works',
+          'hero.kicker': 'Browser-local video tool',
+          'hero.title': 'Remove the <em>Gemini logo</em><br>from your video.',
+          'hero.lede': 'Select a supported video, let the browser detect the visible Gemini/Veo mark, then export a processed copy. Your media stays on this device while it is processed.',
+          'hero.pointOne': 'Local processing', 'hero.pointTwo': 'Before / after review', 'hero.pointThree': 'MP4 export',
+          'workspace.comparison': 'Before / after comparison', 'workspace.waiting': 'Waiting for a video', 'workspace.before': 'Before', 'workspace.after': 'After',
+          'workspace.originalEmpty': 'Choose or drop a video to start.', 'workspace.processedEmpty': 'Your processed video will appear here.',
+          'upload.title': 'Choose a video', 'upload.subtitle': 'Click or drag MP4, WebM, or MOV here',
+          'actions.label': 'Automatic cleanup', 'auto.title': 'AI automatic cleanup', 'auto.copy': 'Choose a video to detect the visible mark and prepare the best local preset.',
+          'actions.detect': 'Detect mark', 'actions.reset': 'Reset', 'actions.process': 'Process video', 'actions.download': 'Download MP4',
+          'info.video': 'Video information', 'info.detection': 'Detection result', 'info.waiting': 'Waiting for a video.', 'info.detectFirst': 'Detect a mark or process directly.',
+          'advanced.title': 'Advanced video options', 'advanced.alpha': 'Alpha gain', 'advanced.adaptive': 'Adaptive alpha', 'advanced.quality': 'High-quality cleanup', 'advanced.denoise': 'Cleanup model', 'advanced.review': 'Apply review preset', 'advanced.edge': 'Edge cleanup', 'advanced.residual': 'Residual cleanup', 'advanced.samples': 'Sample frames', 'advanced.bitrate': 'Export bitrate (Mbps)', 'advanced.lowConfidence': 'Allow low-confidence export',
+          'denoise.none': 'Off', 'denoise.edge': 'Canvas edge denoise', 'denoise.band': 'Canvas edge-band denoise', 'denoise.core': 'Canvas core denoise', 'denoise.polish': 'Canvas footprint polish', 'denoise.delta': 'Canvas temporal delta stabilizer', 'denoise.match': 'Canvas temporal match stabilizer', 'denoise.temporal': 'Canvas temporal stabilizer', 'denoise.texture': 'Canvas texture repair', 'denoise.ai': 'AI FDnCNN ONNX',
+          'how.kicker': 'How it works', 'how.title': 'A simple local workflow for supported video.', 'how.stepOneTitle': 'Add a video', 'how.stepOneCopy': 'Select an MP4, WebM, or MOV file from your device.', 'how.stepTwoTitle': 'Detect & process', 'how.stepTwoCopy': 'The browser samples frames, locates the supported mark, and processes frames locally.', 'how.stepThreeTitle': 'Review & export', 'how.stepThreeCopy': 'Compare the two players, then download the processed MP4 when it is ready.',
+          footer: 'GrowthAutomationX · Local browser processing · Results depend on the source video and visible mark.'
+        },
+        vi: {
+          pageTitle: 'GrowthAutomationX — Xóa logo Gemini',
+          'nav.image': 'Xóa logo ảnh', 'nav.video': 'Xóa logo Gemini', 'nav.how': 'Cách hoạt động',
+          'hero.kicker': 'Công cụ video chạy ngay trên trình duyệt',
+          'hero.title': 'Xóa <em>logo Gemini</em><br>khỏi video của bạn.',
+          'hero.lede': 'Chọn video được hỗ trợ, để trình duyệt nhận diện dấu Gemini/Veo hiển thị, sau đó xuất bản sao đã xử lý. Media của bạn chỉ được xử lý trên thiết bị này.',
+          'hero.pointOne': 'Xử lý cục bộ', 'hero.pointTwo': 'So sánh trước / sau', 'hero.pointThree': 'Xuất MP4',
+          'workspace.comparison': 'So sánh trước / sau', 'workspace.waiting': 'Đang chờ video', 'workspace.before': 'Trước', 'workspace.after': 'Sau',
+          'workspace.originalEmpty': 'Chọn hoặc kéo video vào để bắt đầu.', 'workspace.processedEmpty': 'Video đã xử lý sẽ xuất hiện ở đây.',
+          'upload.title': 'Chọn video', 'upload.subtitle': 'Nhấp hoặc kéo MP4, WebM hay MOV vào đây',
+          'actions.label': 'Xử lý tự động', 'auto.title': 'Dọn logo tự động bằng AI', 'auto.copy': 'Chọn video để nhận diện dấu hiển thị và chuẩn bị thiết lập cục bộ phù hợp.',
+          'actions.detect': 'Nhận diện logo', 'actions.reset': 'Đặt lại', 'actions.process': 'Xử lý video', 'actions.download': 'Tải MP4',
+          'info.video': 'Thông tin video', 'info.detection': 'Kết quả nhận diện', 'info.waiting': 'Đang chờ video.', 'info.detectFirst': 'Nhận diện logo hoặc xử lý trực tiếp.',
+          'advanced.title': 'Tùy chọn video nâng cao', 'advanced.alpha': 'Độ mạnh alpha', 'advanced.adaptive': 'Alpha thích ứng', 'advanced.quality': 'Dọn chất lượng cao', 'advanced.denoise': 'Mô hình dọn nhiễu', 'advanced.review': 'Áp dụng cấu hình rà soát', 'advanced.edge': 'Dọn viền', 'advanced.residual': 'Dọn phần còn lại', 'advanced.samples': 'Số khung lấy mẫu', 'advanced.bitrate': 'Bitrate xuất (Mbps)', 'advanced.lowConfidence': 'Cho phép xuất khi độ tin cậy thấp',
+          'denoise.none': 'Tắt', 'denoise.edge': 'Khử nhiễu viền Canvas', 'denoise.band': 'Khử nhiễu dải viền Canvas', 'denoise.core': 'Khử nhiễu lõi Canvas', 'denoise.polish': 'Làm mượt vùng dấu Canvas', 'denoise.delta': 'Ổn định delta thời gian Canvas', 'denoise.match': 'Ổn định khớp thời gian Canvas', 'denoise.temporal': 'Ổn định thời gian Canvas', 'denoise.texture': 'Khôi phục texture Canvas', 'denoise.ai': 'AI FDnCNN ONNX',
+          'how.kicker': 'Cách hoạt động', 'how.title': 'Quy trình cục bộ đơn giản cho video được hỗ trợ.', 'how.stepOneTitle': 'Thêm video', 'how.stepOneCopy': 'Chọn tệp MP4, WebM hoặc MOV từ thiết bị của bạn.', 'how.stepTwoTitle': 'Nhận diện & xử lý', 'how.stepTwoCopy': 'Trình duyệt lấy mẫu khung hình, định vị dấu được hỗ trợ và xử lý cục bộ.', 'how.stepThreeTitle': 'Kiểm tra & xuất', 'how.stepThreeCopy': 'So sánh hai video, sau đó tải MP4 đã xử lý khi sẵn sàng.',
+          footer: 'GrowthAutomationX · Xử lý cục bộ trên trình duyệt · Kết quả phụ thuộc vào video nguồn và dấu hiển thị.'
+        }
+      };
+
+      const defaultLocale = (() => {
+        try { return localStorage.getItem('gax-video-locale') || 'en'; } catch { return 'en'; }
+      })();
+
+      function applyLocale(requestedLocale) {
+        const locale = copy[requestedLocale] ? requestedLocale : 'en';
+        document.documentElement.lang = locale;
+        document.title = copy[locale].pageTitle;
+        document.querySelectorAll('[data-i18n]').forEach((element) => {
+          const value = copy[locale][element.dataset.i18n];
+          if (value !== undefined) element.textContent = value;
+        });
+        document.querySelectorAll('[data-i18n-html]').forEach((element) => {
+          const value = copy[locale][element.dataset.i18nHtml];
+          if (value !== undefined) element.innerHTML = value;
+        });
+        document.querySelectorAll('[data-locale]').forEach((button) => {
+          button.setAttribute('aria-pressed', String(button.dataset.locale === locale));
+        });
+        try { localStorage.setItem('gax-video-locale', locale); } catch {}
+        window.dispatchEvent(new CustomEvent('gax-video-language-change', { detail: { locale } }));
+      }
+
+      window.__gaxVideoLocale = () => document.documentElement.lang === 'vi' ? 'vi' : 'en';
+      document.querySelectorAll('[data-locale]').forEach((button) => {
+        button.addEventListener('click', () => applyLocale(button.dataset.locale));
+      });
+      applyLocale(defaultLocale);
+    })();
+  </script>
+  <script src="video-app.js"></script>
+</body>
+</html>

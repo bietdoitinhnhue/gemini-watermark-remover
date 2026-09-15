@@ -7,7 +7,7 @@ import { renderVideoUiPresetExportMarkdown } from '../../scripts/export-video-ui
 test('renderVideoUiPresetExportMarkdown records the real UI preset path', () => {
   const markdown = renderVideoUiPresetExportMarkdown({
     generatedAt: '2026-06-11T00:00:00.000Z',
-    pagePath: 'D:\\Project\\gemini-watermark-remover\\dist\\video-preview.html',
+    pagePath: 'D:\\Project\\gemini-watermark-remover\\dist\\video-remover.html',
     inputPath: 'D:\\sample.mp4',
     outputPath: 'D:\\out.mp4',
     bytes: 1234,
@@ -46,8 +46,8 @@ test('export-video-ui-preset source clicks the relocated review preset button', 
 });
 
 test('video preview comparison panes should show the full frame without cropping', () => {
-  const html = readFileSync(new URL('../../public/video-preview.html', import.meta.url), 'utf8');
-  const videoRule = html.match(/\.compare-pane video\s*\{[^}]+\}/)?.[0] ?? '';
+  const css = readFileSync(new URL('../../public/video-remover.css', import.meta.url), 'utf8');
+  const videoRule = css.match(/\.compare-pane video\s*\{[^}]+\}/)?.[0] ?? '';
 
   assert.match(videoRule, /width:\s*100%;/);
   assert.match(videoRule, /height:\s*100%;/);

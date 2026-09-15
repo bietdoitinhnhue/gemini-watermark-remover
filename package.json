@@ -13,7 +13,7 @@
     "src/sdk/",
     "src/shared/",
     "src/userscript/",
-    "dist/video-preview.html",
+    "dist/video-remover.html",
     "dist/video-app.js",
     "dist/models/allenk-fdncnn/onnx-manifest.json",
     "dist/models/allenk-fdncnn/model_core_fp32_86x74.onnx",

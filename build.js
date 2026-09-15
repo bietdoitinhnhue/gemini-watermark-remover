@@ -156,6 +156,7 @@ function cleanDistBuildOutputs() {
     'tampermonkey-worker-probe.html',
     'tampermonkey-worker-probe.user.js',
     'video-app.js',
+    'video-remover.html',
     'video-preview.html',
     'userscript',
     'workers'

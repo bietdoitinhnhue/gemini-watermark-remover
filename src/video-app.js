@@ -31,6 +31,152 @@ import {
 import { createAllenkFdncnnOnnxRuntime } from './core/allenkFdncnnOnnxRuntime.js';
 
 const $ = (id) => document.getElementById(id);
+const VIDEO_COPY = Object.freeze({
+    en: {
+        modelLoad: 'Could not load the AI model ({status}).',
+        webgpu: 'Starting WebGPU AI cleanup…',
+        aiLoading: 'Loading the local AI model. The first run can take a little longer…',
+        progressMetadata: 'Reading video',
+        progressSample: 'Sampling {sampled}/{count}',
+        progressSampling: 'Sampling frames',
+        progressScore: 'Matching visible mark',
+        progressDone: 'Detection complete',
+        progressDetecting: 'Detecting',
+        samplingStatus: 'Sampling frames to detect the visible mark: {sampled}/{count}',
+        samplingStatusSimple: 'Sampling frames to detect the visible mark…',
+        matchingStatus: 'Matching mark candidates. The page will remain responsive…',
+        unknown: 'Unknown',
+        play: 'Play',
+        pause: 'Pause',
+        playbackBlocked: 'Playback was blocked by the browser. Please press play again.',
+        presetTitle: 'AI automatic cleanup',
+        presetStandard: 'The local AI model is set to process a supported Gemini/Veo mark.',
+        presetRelocated: 'The local review preset is ready for a detected mark outside its usual position.',
+        metadataWaiting: 'Waiting for a video.',
+        metadataSize: 'Dimensions',
+        metadataDuration: 'Duration',
+        metadataFrameRate: 'Frame rate',
+        metadataBitrate: 'Video bitrate',
+        metadataSpec: 'Mark profile',
+        metadataReference: '1920 × 1080 confirmed',
+        metadataExperimental: 'Aspect-ratio estimate',
+        detectionWaiting: 'Detect a mark or process directly.',
+        detectionCandidate: 'Candidate',
+        detectionPosition: 'Position',
+        detectionSize: 'Size',
+        detectionScore: 'Average score',
+        detectionVotes: 'Votes',
+        detectionStatus: 'Status',
+        readyToExport: 'Ready to export',
+        lowConfidence: 'Low confidence',
+        chooseSupported: 'Choose an image or video file. Videos are processed here; images return to the image workspace.',
+        ready: 'Ready',
+        readingMetadata: 'Reading video metadata…',
+        videoLoaded: 'Video loaded. Process it to run the local AI cleanup.',
+        videoReadFailed: 'Could not read this video.',
+        openingImage: 'Opening the image workspace…',
+        openingImageFailed: 'Could not open the image workspace. Please choose the image again.',
+        detecting: 'Detecting',
+        detectingCorner: 'Sampling frames to detect the visible mark…',
+        detectionSuccess: 'Detection complete. AI cleanup will run during export.',
+        detectionLowConfidence: 'Detection confidence is low. You can still try an AI export.',
+        detectionFailed: 'Detection failed',
+        start: 'Starting',
+        processingLocal: 'Processing video locally. Keep this page open until it finishes.',
+        checkingCandidates: 'Detecting visible mark candidates…',
+        exporting: 'Exporting {frames}',
+        processing: 'Processing',
+        exportingStatus: 'Exporting the video: {frames} processed.',
+        complete: 'Complete',
+        audioKept: 'Audio kept: {codec}, {packets} packets.',
+        audioNotKept: 'Audio was not retained: {reason}.',
+        aiComplete: 'AI cleanup complete',
+        cleanupComplete: 'Cleanup complete',
+        completedStatus: '{cleanup} — {frames} frames processed. {audio}',
+        exportFailed: 'Export failed',
+        waitingVideo: 'Waiting for a video',
+        autoSelected: 'Automatic preset selected: {label}.',
+        reviewPreset: 'Review preset applied: Canvas footprint polish, 12 Mbps, low-confidence export enabled. Use it for manual review only.',
+        handoffFailed: 'Could not retrieve the selected video. Please choose it again.',
+        webCodecsUnavailable: 'This browser does not support WebCodecs. Please use a recent Chrome or Edge browser.',
+        noFrames: 'Processing'
+    },
+    vi: {
+        modelLoad: 'Không thể tải mô hình AI ({status}).',
+        webgpu: 'Đang khởi động dọn logo AI bằng WebGPU…',
+        aiLoading: 'Đang tải mô hình AI cục bộ. Lần chạy đầu có thể mất thêm thời gian…',
+        progressMetadata: 'Đang đọc video',
+        progressSample: 'Đang lấy mẫu {sampled}/{count}',
+        progressSampling: 'Đang lấy khung mẫu',
+        progressScore: 'Đang khớp dấu hiển thị',
+        progressDone: 'Đã nhận diện xong',
+        progressDetecting: 'Đang nhận diện',
+        samplingStatus: 'Đang lấy khung để nhận diện dấu hiển thị: {sampled}/{count}',
+        samplingStatusSimple: 'Đang lấy khung để nhận diện dấu hiển thị…',
+        matchingStatus: 'Đang so khớp các vị trí dấu. Trang vẫn hoạt động bình thường…',
+        unknown: 'Không rõ',
+        play: 'Phát',
+        pause: 'Tạm dừng',
+        playbackBlocked: 'Trình duyệt đã chặn phát video. Hãy bấm phát lại.',
+        presetTitle: 'Dọn logo tự động bằng AI',
+        presetStandard: 'Mô hình AI cục bộ đã sẵn sàng xử lý dấu Gemini/Veo được hỗ trợ.',
+        presetRelocated: 'Cấu hình rà soát cục bộ sẵn sàng cho dấu được phát hiện ngoài vị trí thông thường.',
+        metadataWaiting: 'Đang chờ video.',
+        metadataSize: 'Kích thước',
+        metadataDuration: 'Thời lượng',
+        metadataFrameRate: 'Tốc độ khung hình',
+        metadataBitrate: 'Bitrate video',
+        metadataSpec: 'Hồ sơ dấu',
+        metadataReference: 'Đã xác nhận 1920 × 1080',
+        metadataExperimental: 'Ước lượng theo tỷ lệ',
+        detectionWaiting: 'Nhận diện dấu hoặc xử lý trực tiếp.',
+        detectionCandidate: 'Đối tượng',
+        detectionPosition: 'Vị trí',
+        detectionSize: 'Kích thước',
+        detectionScore: 'Điểm trung bình',
+        detectionVotes: 'Số phiếu',
+        detectionStatus: 'Trạng thái',
+        readyToExport: 'Sẵn sàng xuất',
+        lowConfidence: 'Độ tin cậy thấp',
+        chooseSupported: 'Hãy chọn ảnh hoặc video. Video được xử lý tại đây; ảnh sẽ quay về trang xử lý ảnh.',
+        ready: 'Sẵn sàng',
+        readingMetadata: 'Đang đọc thông tin video…',
+        videoLoaded: 'Đã tải video. Hãy xử lý để chạy dọn logo AI cục bộ.',
+        videoReadFailed: 'Không thể đọc video này.',
+        openingImage: 'Đang mở trang xử lý ảnh…',
+        openingImageFailed: 'Không thể mở trang xử lý ảnh. Hãy chọn ảnh lại.',
+        detecting: 'Đang nhận diện',
+        detectingCorner: 'Đang lấy khung để nhận diện dấu hiển thị…',
+        detectionSuccess: 'Đã nhận diện xong. AI sẽ dọn logo khi xuất video.',
+        detectionLowConfidence: 'Độ tin cậy nhận diện thấp. Bạn vẫn có thể thử xuất bằng AI.',
+        detectionFailed: 'Nhận diện thất bại',
+        start: 'Bắt đầu',
+        processingLocal: 'Đang xử lý video cục bộ. Hãy giữ trang này mở đến khi hoàn tất.',
+        checkingCandidates: 'Đang nhận diện các vị trí dấu…',
+        exporting: 'Đang xuất {frames}',
+        processing: 'Đang xử lý',
+        exportingStatus: 'Đang xuất video: đã xử lý {frames}.',
+        complete: 'Hoàn tất',
+        audioKept: 'Đã giữ âm thanh: {codec}, {packets} gói.',
+        audioNotKept: 'Không giữ được âm thanh: {reason}.',
+        aiComplete: 'AI đã dọn logo xong',
+        cleanupComplete: 'Đã dọn logo xong',
+        completedStatus: '{cleanup} — đã xử lý {frames} khung. {audio}',
+        exportFailed: 'Xuất video thất bại',
+        waitingVideo: 'Đang chờ video',
+        autoSelected: 'Đã chọn cấu hình tự động: {label}.',
+        reviewPreset: 'Đã áp dụng cấu hình rà soát: Canvas footprint polish, 12 Mbps và cho phép xuất độ tin cậy thấp. Chỉ dùng để rà soát thủ công.',
+        handoffFailed: 'Không thể lấy video đã chọn. Hãy chọn lại.',
+        webCodecsUnavailable: 'Trình duyệt này không hỗ trợ WebCodecs. Hãy dùng Chrome hoặc Edge bản mới.',
+        noFrames: 'Đang xử lý'
+    }
+});
+
+function t(key, values = {}) {
+    const locale = typeof window.__gaxVideoLocale === 'function' && window.__gaxVideoLocale() === 'vi' ? 'vi' : 'en';
+    const message = VIDEO_COPY[locale][key] || VIDEO_COPY.en[key] || key;
+    return message.replace(/\{(\w+)\}/g, (token, name) => values[name] ?? token);
+}
 const ALLENK_FDNCNN_WASM_PATHS = Object.freeze({
     mjs: './onnxruntime/ort-wasm-simd-threaded.js',
     wasm: './onnxruntime/ort-wasm-simd-threaded.wasm'
@@ -135,7 +281,7 @@ async function loadAllenkFdncnnRuntime(runtimeProfile = resolveAllenkFdncnnRunti
         const runtimePromise = (async () => {
             const response = await fetch(profile.modelUrl);
             if (!response.ok) {
-                throw new Error(`无法加载 AI 模型：${response.status}`);
+                throw new Error(t('modelLoad', { status: response.status }));
             }
             const modelBytes = new Uint8Array(await response.arrayBuffer());
             if (navigator.gpu && window.__gwrDisableWebGpuDenoise !== true) {
@@ -145,7 +291,7 @@ async function loadAllenkFdncnnRuntime(runtimeProfile = resolveAllenkFdncnnRunti
                         console.warn('WebGPU AI runtime skipped:', preflight.reason);
                         throw new Error(preflight.reason);
                     }
-                    setStatus('正在启用 WebGPU AI 去水印...');
+                    setStatus(t('webgpu'));
                     const webgpuOrt = await import('onnxruntime-web/webgpu');
                     return await createAllenkFdncnnOnnxRuntime({
                         ort: webgpuOrt,
@@ -185,7 +331,7 @@ async function resolveExportDenoiseRuntime(denoiseBackend, runtimeProfile = reso
     if (denoiseBackend !== VIDEO_DENOISE_BACKENDS.ALLENK_FDNCNN_BROWSER_SPIKE) {
         return null;
     }
-    setStatus('正在加载 AI FDnCNN ONNX 模型，首次加载会稍慢...');
+    setStatus(t('aiLoading'));
     return loadAllenkFdncnnRuntime(runtimeProfile);
 }
 
@@ -242,29 +388,31 @@ function createDetectionProgressHandler(jobId, { start = 0, span = 1 } = {}) {
         if (jobId !== state.jobId) return;
         const safeProgress = Number.isFinite(progress) ? Math.max(0, Math.min(1, progress)) : 0;
         const labelByStep = {
-            metadata: '读取视频',
-            sample: sampleCount > 0 ? `抽帧 ${sampledFrames}/${sampleCount}` : '抽帧',
-            score: '匹配水印',
-            done: '检测完成'
+            metadata: t('progressMetadata'),
+            sample: sampleCount > 0
+                ? t('progressSample', { sampled: sampledFrames, count: sampleCount })
+                : t('progressSampling'),
+            score: t('progressScore'),
+            done: t('progressDone')
         };
-        setProgress(start + safeProgress * span, labelByStep[step] || '检测中');
+        setProgress(start + safeProgress * span, labelByStep[step] || t('progressDetecting'));
         if (step === 'sample') {
             setStatus(sampleCount > 0
-                ? `正在抽帧检测水印：${sampledFrames}/${sampleCount}`
-                : '正在抽帧检测水印...');
+                ? t('samplingStatus', { sampled: sampledFrames, count: sampleCount })
+                : t('samplingStatusSimple'));
         } else if (step === 'score') {
-            setStatus('正在匹配水印候选，页面会保持响应...');
+            setStatus(t('matchingStatus'));
         }
     };
 }
 
 function formatSeconds(value) {
-    if (!Number.isFinite(value)) return '未知';
+    if (!Number.isFinite(value)) return t('unknown');
     return `${value.toFixed(2)}s`;
 }
 
 function formatBitrate(value) {
-    if (!Number.isFinite(value)) return '未知';
+    if (!Number.isFinite(value)) return t('unknown');
     return `${(value / 1000 / 1000).toFixed(2)} Mbps`;
 }
 
@@ -300,7 +448,7 @@ function updatePlaybackControls() {
     els.playPauseBtn.disabled = !canPlay;
     els.scrubber.disabled = !canPlay;
     els.playPauseBtn.dataset.playing = els.originalVideo.paused ? 'false' : 'true';
-    els.playPauseBtn.setAttribute('aria-label', els.originalVideo.paused ? '播放' : '暂停');
+    els.playPauseBtn.setAttribute('aria-label', els.originalVideo.paused ? t('play') : t('pause'));
 
     const duration = Number.isFinite(els.originalVideo.duration) ? els.originalVideo.duration : 0;
     const currentTime = Number.isFinite(els.originalVideo.currentTime) ? els.originalVideo.currentTime : 0;
@@ -345,7 +493,7 @@ async function playComparison() {
         }
     } catch (error) {
         console.warn('original video play failed:', error);
-        setStatus('浏览器阻止了播放，请再点一次播放按钮。', 'warn');
+        setStatus(t('playbackBlocked'), 'warn');
     } finally {
         updatePlaybackControls();
     }
@@ -378,38 +526,41 @@ function renderAutoPresetSummary(preset = null) {
     if (!els.autoPresetSummary) return;
     if (!preset) {
         els.autoPresetSummary.innerHTML = `
-            <strong>AI 自动处理</strong>
-            <span>选择视频后自动检测水印，导出时使用本地 AI 模型清理。</span>
+            <strong>${t('presetTitle')}</strong>
+            <span>${t('presetStandard')}</span>
         `;
         return;
     }
 
+    const presetDescription = preset.id === 'relocated-review'
+        ? t('presetRelocated')
+        : t('presetStandard');
     els.autoPresetSummary.innerHTML = `
-        <strong>${preset.label}</strong>
-        <span>${preset.description}</span>
+        <strong>${t('presetTitle')}</strong>
+        <span>${presetDescription}</span>
     `;
 }
 
 function renderMetadata(metadata) {
     if (!metadata) {
-        els.metadata.innerHTML = '<p class="muted">等待载入视频</p>';
+        els.metadata.innerHTML = `<p class="muted">${t('metadataWaiting')}</p>`;
         return;
     }
     const reference = isReferenceGeminiVideoSize(metadata.width, metadata.height);
     els.metadata.innerHTML = `
         <dl>
-            <div><dt>尺寸</dt><dd>${metadata.width} x ${metadata.height}</dd></div>
-            <div><dt>时长</dt><dd>${formatSeconds(metadata.duration)}</dd></div>
-            <div><dt>帧率</dt><dd>${metadata.frameRate.toFixed(2)} fps</dd></div>
-            <div><dt>视频码率</dt><dd>${formatBitrate(metadata.averageBitrate)}</dd></div>
-            <div><dt>水印规格</dt><dd>${reference ? '1920x1080 已确认' : '比例推断，实验性'}</dd></div>
+            <div><dt>${t('metadataSize')}</dt><dd>${metadata.width} x ${metadata.height}</dd></div>
+            <div><dt>${t('metadataDuration')}</dt><dd>${formatSeconds(metadata.duration)}</dd></div>
+            <div><dt>${t('metadataFrameRate')}</dt><dd>${metadata.frameRate.toFixed(2)} fps</dd></div>
+            <div><dt>${t('metadataBitrate')}</dt><dd>${formatBitrate(metadata.averageBitrate)}</dd></div>
+            <div><dt>${t('metadataSpec')}</dt><dd>${reference ? t('metadataReference') : t('metadataExperimental')}</dd></div>
         </dl>
     `;
 }
 
 function renderDetection(detection) {
     if (!detection) {
-        els.detection.innerHTML = '<p class="muted">先检测或直接导出</p>';
+        els.detection.innerHTML = `<p class="muted">${t('detectionWaiting')}</p>`;
         return;
     }
 
@@ -424,12 +575,12 @@ function renderDetection(detection) {
             : null;
     els.detection.innerHTML = `
         <dl>
-            <div><dt>候选</dt><dd>${bestLabel}</dd></div>
-            <div><dt>位置</dt><dd>${detection.position.x}, ${detection.position.y}</dd></div>
-            <div><dt>大小</dt><dd>${detection.position.width} x ${detection.position.height}</dd></div>
-            <div><dt>均值分数</dt><dd>${Number.isFinite(bestScore) ? bestScore.toFixed(3) : '-'}</dd></div>
-            <div><dt>投票</dt><dd>${best.votes || 0}/${detection.summary?.frameCount || 0}</dd></div>
-            <div><dt>状态</dt><dd>${detection.isConfident ? '可导出' : '低置信'}</dd></div>
+            <div><dt>${t('detectionCandidate')}</dt><dd>${bestLabel}</dd></div>
+            <div><dt>${t('detectionPosition')}</dt><dd>${detection.position.x}, ${detection.position.y}</dd></div>
+            <div><dt>${t('detectionSize')}</dt><dd>${detection.position.width} x ${detection.position.height}</dd></div>
+            <div><dt>${t('detectionScore')}</dt><dd>${Number.isFinite(bestScore) ? bestScore.toFixed(3) : '-'}</dd></div>
+            <div><dt>${t('detectionVotes')}</dt><dd>${best.votes || 0}/${detection.summary?.frameCount || 0}</dd></div>
+            <div><dt>${t('detectionStatus')}</dt><dd>${detection.isConfident ? t('readyToExport') : t('lowConfidence')}</dd></div>
         </dl>
     `;
 }
@@ -448,7 +599,7 @@ async function setFile(file) {
         return;
     }
     if (fileKind !== 'video') {
-        setStatus('请选择图片或视频文件。视频会在本页处理，图片会回到单图对比页。', 'warn');
+        setStatus(t('chooseSupported'), 'warn');
         return;
     }
 
@@ -470,8 +621,8 @@ async function setFile(file) {
     updateCompareMode();
     renderMetadata(null);
     renderDetection(null);
-    setProgress(0, '准备就绪');
-    setStatus('正在读取视频元数据...');
+    setProgress(0, t('ready'));
+    setStatus(t('readingMetadata'));
     updateButtons();
 
     try {
@@ -479,10 +630,10 @@ async function setFile(file) {
         state.metadata = metadata;
         renderMetadata(metadata);
         applyAutomaticPreset(null, metadata, { silent: true });
-        setStatus('视频已载入，点击导出即可使用 AI 去水印。');
+        setStatus(t('videoLoaded'));
     } catch (error) {
         console.error(error);
-        setStatus(error.message || '读取视频失败', 'error');
+        setStatus(error.message || t('videoReadFailed'), 'error');
     } finally {
         updateButtons();
     }
@@ -490,12 +641,12 @@ async function setFile(file) {
 
 async function routeImageFile(file) {
     try {
-        setStatus('正在进入图片调试流程...');
+        setStatus(t('openingImage'));
         await saveDebugFileHandoff(file, 'image');
-        window.location.assign('./dev-preview.html?fileHandoff=1');
+        window.location.assign('./?fileHandoff=1');
     } catch (error) {
         console.error(error);
-        setStatus(error.message || '无法进入图片调试流程，请打开单图页后重新选择文件。', 'warn');
+        setStatus(error.message || t('openingImageFailed'), 'warn');
     }
 }
 
@@ -530,8 +681,8 @@ async function runDetection() {
     const jobId = ++state.jobId;
     state.running = true;
     updateButtons();
-    setProgress(0.05, '检测中');
-    setStatus('正在抽帧检测右下角水印...');
+    setProgress(0.05, t('detecting'));
+    setStatus(t('detectingCorner'));
 
     try {
         await yieldToBrowserFrame();
@@ -546,17 +697,20 @@ async function runDetection() {
         state.detection = result.detection;
         renderMetadata(result.metadata);
         renderDetection(result.detection);
-        setProgress(1, result.detection.isConfident ? '检测完成' : '低置信');
+        setProgress(1, result.detection.isConfident ? t('progressDone') : t('lowConfidence'));
         const preset = applyAutomaticPreset(result.detection, result.metadata, { silent: true });
         if (preset.id === 'relocated-review') {
-            setStatus('检测完成，导出时会使用 AI 去水印。', result.detection.isConfident ? 'success' : 'warn');
+            setStatus(t('detectionSuccess'), result.detection.isConfident ? 'success' : 'warn');
         } else {
-            setStatus(result.detection.isConfident ? '检测完成，导出时会使用 AI 去水印。' : '检测置信度偏低，仍可尝试 AI 导出。', result.detection.isConfident ? 'success' : 'warn');
+            setStatus(
+                result.detection.isConfident ? t('detectionSuccess') : t('detectionLowConfidence'),
+                result.detection.isConfident ? 'success' : 'warn'
+            );
         }
     } catch (error) {
         console.error(error);
-        setStatus(error.message || '检测失败', 'error');
-        setProgress(0, '检测失败');
+        setStatus(error.message || t('detectionFailed'), 'error');
+        setProgress(0, t('detectionFailed'));
     } finally {
         state.running = false;
         updateButtons();
@@ -568,14 +722,14 @@ async function runExport() {
     const jobId = ++state.jobId;
     state.running = true;
     updateButtons();
-    setProgress(0, '开始');
-    setStatus('正在本地逐帧处理，页面保持打开即可。');
+    setProgress(0, t('start'));
+    setStatus(t('processingLocal'));
 
     try {
         let detectionPayload = state.detection ? { metadata: state.metadata, detection: state.detection } : null;
         if (!detectionPayload) {
-            setProgress(0.04, '检测中');
-            setStatus('正在检测水印候选...');
+            setProgress(0.04, t('detecting'));
+            setStatus(t('checkingCandidates'));
             await yieldToBrowserFrame();
             const detected = await detectGeminiVideoWatermark(state.file, {
                 ...getDebugAlphaOptions(),
@@ -647,13 +801,15 @@ async function runExport() {
                     renderDetection(detection);
                 }
                 if (phase === 'detect') {
-                    setProgress(progress * 0.12, progress >= 1 ? '检测完成' : '检测中');
+                    setProgress(progress * 0.12, progress >= 1 ? t('progressDone') : t('detecting'));
                 } else if (phase === 'export') {
                     const exportProgress = 0.12 + progress * 0.88;
-                    const frames = Number.isFinite(processedFrames) ? `${processedFrames} 帧` : '处理中';
+                    const frames = Number.isFinite(processedFrames)
+                        ? String(processedFrames)
+                        : t('noFrames');
                     const aiNote = '';
-                    setProgress(exportProgress, `导出中 ${frames}`);
-                    setStatus(`正在导出视频，已处理 ${frames}${aiNote}。`);
+                    setProgress(exportProgress, t('exporting', { frames }));
+                    setStatus(t('exportingStatus', { frames: `${frames}${aiNote}` }));
                 }
             }
         });
@@ -668,18 +824,17 @@ async function runExport() {
         syncProcessedToOriginal({ force: true });
         els.downloadBtn.href = state.processedUrl;
         els.downloadBtn.download = `${state.file.name.replace(/\.[^.]+$/, '')}_gwr_video_mvp.mp4`;
-        setProgress(1, '完成');
+        setProgress(1, t('complete'));
         const audioNote = result.audioCopied
-            ? `音频已保留：${result.audioCodec || 'unknown'}，${result.audioPacketCount || 0} packets。`
-            : `音频未保留：${result.audioSkipReason || 'unknown'}。`;
+            ? t('audioKept', { codec: result.audioCodec || t('unknown'), packets: result.audioPacketCount || 0 })
+            : t('audioNotKept', { reason: result.audioSkipReason || t('unknown') });
         const cleanupNote = result.denoiseBackend === VIDEO_DENOISE_BACKENDS.ALLENK_FDNCNN_BROWSER_SPIKE
-            ? 'AI 去水印已完成'
-            : '去水印已完成';
-        const aiNote = '';
-        setStatus(`${cleanupNote}，已处理 ${result.processedFrames} 帧。${audioNote}`, 'success');
+            ? t('aiComplete')
+            : t('cleanupComplete');
+        setStatus(t('completedStatus', { cleanup: cleanupNote, frames: result.processedFrames, audio: audioNote }), 'success');
     } catch (error) {
         console.error(error);
-        setStatus(error.message || '导出失败', 'error');
+        setStatus(error.message || t('exportFailed'), 'error');
     } finally {
         state.running = false;
         updateButtons();
@@ -705,7 +860,7 @@ function reset() {
     renderMetadata(null);
     renderDetection(null);
     renderAutoPresetSummary(null);
-    setProgress(0, '等待视频');
+    setProgress(0, t('waitingVideo'));
     setStatus('');
     updateButtons();
 }
@@ -748,7 +903,7 @@ function applyAutomaticPreset(detection = state.detection, metadata = state.meta
     const preset = getAutomaticVideoPresetConfig(detection, metadata);
     applyPresetToControls(preset);
     if (!silent) {
-        setStatus(`已自动选择：${preset.label}。`, preset.allowLowConfidence ? 'warn' : 'success');
+        setStatus(t('autoSelected', { label: t('presetTitle') }), preset.allowLowConfidence ? 'warn' : 'success');
     }
     return preset;
 }
@@ -789,7 +944,7 @@ function applyDebugControlOverrides() {
 function applyRelocatedReviewPreset() {
     const preset = getRelocatedReviewPresetConfig();
     applyPresetToControls(preset);
-    setStatus('已应用迁移锚点复核预设：Canvas 足迹抛光、12Mbps、允许低置信。此预设用于人工复核，不是默认策略。', 'warn');
+    setStatus(t('reviewPreset'), 'warn');
 }
 
 function setupEvents() {
@@ -878,21 +1033,31 @@ async function consumePendingVideoHandoff() {
         window.history.replaceState(null, '', window.location.pathname);
     } catch (error) {
         console.warn('video handoff unavailable:', error);
-        setStatus(error.message || '读取视频暂存失败，请重新选择文件。', 'warn');
+        setStatus(error.message || t('handoffFailed'), 'warn');
     }
 }
 
 async function init() {
     applyPresetToControls(getAutomaticVideoPresetConfig());
 
+    window.addEventListener('gax-video-language-change', () => {
+        renderAutoPresetSummary(getAutomaticVideoPresetConfig(state.detection, state.metadata));
+        renderMetadata(state.metadata);
+        renderDetection(state.detection);
+        updatePlaybackControls();
+        if (!state.file && !state.running) {
+            setProgress(0, t('waitingVideo'));
+        }
+    });
+
     if (!('VideoDecoder' in window) || !('VideoEncoder' in window)) {
-        setStatus('当前浏览器缺少 WebCodecs，请使用新版 Chrome 或 Edge。', 'error');
+        setStatus(t('webCodecsUnavailable'), 'error');
     }
 
     renderMetadata(null);
     renderDetection(null);
     updateCompareMode();
-    setProgress(0, '等待视频');
+    setProgress(0, t('waitingVideo'));
     setupEvents();
     updateButtons();
     await consumePendingVideoHandoff();
