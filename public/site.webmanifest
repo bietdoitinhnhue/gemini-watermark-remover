@@ -3,7 +3,7 @@
   "short_name": "GAx Tools",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#090d18",
-  "theme_color": "#0b1020",
+  "background_color": "#F7F7F4",
+  "theme_color": "#167FB5",
   "description": "Browser-local image and video workflows by GrowthAutomationX."
 }
