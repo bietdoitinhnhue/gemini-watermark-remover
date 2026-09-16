@@ -355,17 +355,17 @@ export const PAGE_METADATA = Object.freeze({
             appDescription: 'A browser-local image workflow for supported Gemini-generated image files.'
         },
         vi: {
-            title: 'Xóa logo Gemini trên ảnh | GrowthAutomationX',
-            description: 'Xử lý logo Gemini hiển thị trên ảnh được hỗ trợ ngay trong trình duyệt với luồng cục bộ cho tệp JPG, PNG và WebP.',
-            keywords: 'xóa logo Gemini trên ảnh, xử lý ảnh trên trình duyệt, JPG PNG WebP, GrowthAutomationX',
-            ogTitle: 'Xóa logo Gemini trên ảnh | GrowthAutomationX',
-            ogDescription: 'Không gian xử lý cục bộ trên trình duyệt cho ảnh JPG, PNG và WebP được hỗ trợ. Chọn, xử lý, kiểm tra và tải kết quả trên thiết bị.',
+            title: 'Gemini Image Logo Remover | GrowthAutomationX',
+            description: 'Process supported Gemini image logos in your browser with a private, browser-local image workflow for JPG, PNG, and WebP files.',
+            keywords: 'Gemini image logo remover, browser-local image processing, JPG PNG WebP image workflow',
+            ogTitle: 'Gemini Image Logo Remover | GrowthAutomationX',
+            ogDescription: 'A browser-local workspace for supported JPG, PNG, and WebP images. Select, process, review, and download on your device.',
             ogImage: `${SITE_ORIGIN}/assets/og-image-remover-gax.jpg`,
-            ogImageAlt: 'GrowthAutomationX công cụ xử lý logo Gemini trên ảnh chạy cục bộ trên trình duyệt',
+            ogImageAlt: 'GrowthAutomationX Gemini Image Logo Remover browser-local image workflow',
             locale: 'vi_VN',
             path: '/vi',
-            name: 'GrowthAutomationX Xóa logo Gemini trên ảnh',
-            appDescription: 'Luồng xử lý ảnh Gemini được hỗ trợ chạy cục bộ trên trình duyệt.'
+            name: 'GrowthAutomationX Gemini Image Logo Remover',
+            appDescription: 'A browser-local image workflow for supported Gemini-generated image files.'
         }
     },
     video: {
@@ -383,17 +383,17 @@ export const PAGE_METADATA = Object.freeze({
             appDescription: 'A browser-local video workflow for supported Gemini and Veo video files in landscape and portrait formats.'
         },
         vi: {
-            title: 'Xóa logo Gemini trên video 16:9 & 9:16 | GrowthAutomationX',
-            description: 'Xử lý logo Gemini và Veo hiển thị trên video được hỗ trợ ngay trong trình duyệt. So sánh 16:9 hoặc 9:16 trước và sau khi xuất MP4 cục bộ.',
-            keywords: 'xóa logo Gemini trên video, xử lý video Veo, video 16:9, video 9:16, xử lý video trên trình duyệt',
-            ogTitle: 'Xóa logo Gemini trên video 16:9 & 9:16 | GrowthAutomationX',
-            ogDescription: 'Không gian xử lý video cục bộ trên trình duyệt cho tệp MP4, WebM và MOV được hỗ trợ, có xem trước 16:9 và 9:16.',
+            title: 'Gemini Video Logo Remover for 16:9 & 9:16 | GrowthAutomationX',
+            description: 'Process supported Gemini and Veo video marks in your browser. Review 16:9 or 9:16 video before and after exporting a local MP4 copy.',
+            keywords: 'Gemini video logo remover, Veo video processing, 16:9 video, 9:16 video, browser-local video workflow',
+            ogTitle: 'Gemini Video Logo Remover for 16:9 & 9:16 | GrowthAutomationX',
+            ogDescription: 'A browser-local video workspace for supported MP4, WebM, and MOV files with 16:9 and 9:16 review.',
             ogImage: `${SITE_ORIGIN}/assets/og-video-remover-gax.jpg`,
-            ogImageAlt: 'GrowthAutomationX công cụ xử lý logo Gemini trên video 16:9 và 9:16',
+            ogImageAlt: 'GrowthAutomationX Gemini Video Logo Remover for 16:9 and 9:16 video',
             locale: 'vi_VN',
             path: '/vi/video-remover',
-            name: 'GrowthAutomationX Xóa logo Gemini trên video',
-            appDescription: 'Luồng xử lý video Gemini và Veo được hỗ trợ chạy cục bộ trên trình duyệt cho tỷ lệ ngang và dọc.'
+            name: 'GrowthAutomationX Gemini Video Logo Remover',
+            appDescription: 'A browser-local video workflow for supported Gemini and Veo video files in landscape and portrait formats.'
         }
     }
 });
