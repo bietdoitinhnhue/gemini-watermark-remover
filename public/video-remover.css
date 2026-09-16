@@ -65,7 +65,7 @@ body.video-remover-page {
   color: var(--gax-lime);
 }
 
-.language-switcher {
+.video-remover-page .language-switcher {
   display: inline-flex;
   align-items: center;
   padding: 3px;
@@ -74,20 +74,25 @@ body.video-remover-page {
   background: rgba(255, 255, 255, .03);
 }
 
-.language-switcher button {
+.video-remover-page .language-switcher a {
   min-width: 37px;
   height: 28px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   border: 0;
   border-radius: 999px;
   padding: 0 8px;
   background: transparent;
   color: var(--gax-muted);
-  cursor: pointer;
   font: 700 .72rem/1 inherit;
+  text-decoration: none;
   transition: color .2s ease, background .2s ease;
 }
 
-.language-switcher button[aria-pressed="true"] {
+.video-remover-page .language-switcher a:hover { color: var(--gax-ink); }
+
+.video-remover-page .language-switcher a[aria-current="page"] {
   color: #0a1523;
   background: var(--gax-lime);
 }
@@ -507,6 +512,17 @@ body.video-remover-page {
 .step-grid span { color: var(--gax-lime); font-size: .75rem; font-weight: 800; }
 .step-grid h3 { margin: 20px 0 7px; font-size: 1rem; }
 .step-grid p { margin: 0; color: var(--gax-muted); font-size: .83rem; line-height: 1.55; }
+
+.video-faq { margin-top: 76px; padding-top: 45px; border-top: 1px solid var(--gax-line); }
+.video-faq h2 { max-width: 750px; margin: 0; color: var(--gax-ink); font-size: clamp(1.8rem, 3.5vw, 3rem); letter-spacing: -.055em; line-height: 1.05; }
+.video-faq-list { max-width: 820px; margin-top: 30px; }
+.video-faq-list details { border-top: 1px solid var(--gax-line); }
+.video-faq-list details:last-child { border-bottom: 1px solid var(--gax-line); }
+.video-faq-list summary { display: flex; align-items: center; justify-content: space-between; gap: 18px; padding: 20px 0; color: var(--gax-ink); cursor: pointer; font-size: .94rem; font-weight: 700; list-style: none; }
+.video-faq-list summary::-webkit-details-marker { display: none; }
+.video-faq-list summary span { color: var(--gax-lime); font-size: 1.2rem; font-weight: 400; }
+.video-faq-list details[open] summary span { transform: rotate(45deg); }
+.video-faq-list p { max-width: 720px; margin: -3px 0 20px; color: var(--gax-muted); font-size: .88rem; line-height: 1.65; }
 
 .video-footer {
   width: min(1260px, calc(100% - 48px));

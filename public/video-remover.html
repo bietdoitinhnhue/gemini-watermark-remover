@@ -3,29 +3,68 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="robots" content="noindex, nofollow">
+  <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
+  <meta name="googlebot" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
+  <meta name="description" content="__PAGE_DESCRIPTION__">
+  <meta name="keywords" content="__PAGE_KEYWORDS__">
+  <meta name="application-name" content="GrowthAutomationX">
+  <meta name="author" content="GrowthAutomationX">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
   <meta name="theme-color" content="#07101f">
-  <meta name="description" content="GrowthAutomationX browser-local Gemini logo remover for supported video files.">
-  <title>GrowthAutomationX — Gemini Logo Remover</title>
+  <meta name="color-scheme" content="dark">
+  <meta name="format-detection" content="telephone=no">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="GrowthAutomationX">
+  <title>__PAGE_TITLE__</title>
+  <link rel="canonical" href="__PAGE_URL__">
+  <link rel="alternate" hreflang="en" href="__PAGE_EN_URL__">
+  <link rel="alternate" hreflang="vi" href="__PAGE_VI_URL__">
+  <link rel="alternate" hreflang="x-default" href="__PAGE_EN_URL__">
+  <link rel="manifest" href="/site.webmanifest">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="GrowthAutomationX">
+  <meta property="og:locale" content="__PAGE_OG_LOCALE__">
+  <meta property="og:locale:alternate" content="__PAGE_OG_ALTERNATE_LOCALE__">
+  <meta property="og:title" content="__PAGE_OG_TITLE__">
+  <meta property="og:description" content="__PAGE_OG_DESCRIPTION__">
+  <meta property="og:url" content="__PAGE_URL__">
+  <meta property="og:image" content="__PAGE_OG_IMAGE__">
+  <meta property="og:image:secure_url" content="__PAGE_OG_IMAGE__">
+  <meta property="og:image:type" content="image/jpeg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="__PAGE_OG_IMAGE_ALT__">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="__PAGE_OG_TITLE__">
+  <meta name="twitter:description" content="__PAGE_OG_DESCRIPTION__">
+  <meta name="twitter:image" content="__PAGE_OG_IMAGE__">
+  <meta name="twitter:image:alt" content="__PAGE_OG_IMAGE_ALT__">
+  <meta itemprop="name" content="__PAGE_OG_TITLE__">
+  <meta itemprop="description" content="__PAGE_OG_DESCRIPTION__">
+  <meta itemprop="image" content="__PAGE_OG_IMAGE__">
   <link rel="stylesheet" href="growthautomationx.css">
   <link rel="stylesheet" href="video-remover.css">
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%230b1020'/%3E%3Cpath d='M14 37.5 28 18l8 12 7-8 8 15.5' fill='none' stroke='%23d5ff65' stroke-width='6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+  <script type="application/ld+json">__PAGE_JSONLD__</script>
 </head>
 <body class="video-remover-page">
   <header class="site-header">
-    <a class="brand" href="/" aria-label="GrowthAutomationX home">
+    <a class="brand" href="https://growthautomationx.com" aria-label="GrowthAutomationX website">
       <span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span>
       <span>Growth<span>Automation</span>X</span>
     </a>
     <nav class="video-nav" aria-label="Primary navigation">
-      <a href="/" data-i18n="nav.image">Image remover</a>
-      <a href="/video-remover" aria-current="page" data-i18n="nav.video">Gemini Logo Remover</a>
+      <a href="/" data-vi-href="/vi" data-i18n="nav.image">Image remover</a>
+      <a href="/video-remover" data-vi-href="/vi/video-remover" aria-current="page" data-i18n="nav.video">Gemini Video Remover</a>
       <a href="#how-it-works" data-i18n="nav.how">How it works</a>
+      <a href="#faq" data-i18n="nav.faq">FAQ</a>
     </nav>
-    <div class="language-switcher" role="group" aria-label="Language selector">
-      <button type="button" data-locale="en" aria-pressed="true">EN</button>
-      <button type="button" data-locale="vi" aria-pressed="false">VI</button>
-    </div>
+    <nav class="language-switcher" aria-label="Language selector">
+      <a href="/video-remover" data-locale="en">EN</a>
+      <a href="/vi/video-remover" data-locale="vi">VI</a>
+    </nav>
   </header>
 
   <main class="video-main">
@@ -44,7 +83,7 @@
       </div>
     </section>
 
-    <section id="workspace" class="video-workspace" aria-label="Gemini Logo Remover workspace">
+    <section id="workspace" class="video-workspace" aria-label="Gemini Video Remover workspace">
       <section class="video-panel" aria-label="Video comparison">
         <div class="video-panel-head">
           <h2 data-i18n="workspace.comparison">Before / after comparison</h2>
@@ -160,81 +199,22 @@
         <article><span>03</span><h3 data-i18n="how.stepThreeTitle">Review &amp; export</h3><p data-i18n="how.stepThreeCopy">Compare the two players, then download the processed MP4 when it is ready.</p></article>
       </div>
     </section>
+
+    <section id="faq" class="video-faq" aria-labelledby="faq-title">
+      <p class="video-kicker" data-i18n="faq.kicker">FAQ</p>
+      <h2 id="faq-title" data-i18n="faq.title">Useful answers, up front.</h2>
+      <div class="video-faq-list">
+        <details open><summary data-i18n-html="faq.oneQuestion">Does the video tool support both 16:9 and 9:16?<span>+</span></summary><p data-i18n="faq.oneAnswer">Yes. The workspace handles supported landscape and portrait videos, including common 16:9 and 9:16 formats.</p></details>
+        <details><summary data-i18n-html="faq.twoQuestion">Which video formats can I select?<span>+</span></summary><p data-i18n="faq.twoAnswer">You can choose MP4, WebM, or MOV files. Playback and export compatibility can still vary by browser and source codec.</p></details>
+        <details><summary data-i18n-html="faq.threeQuestion">Is my video uploaded to an app server?<span>+</span></summary><p data-i18n="faq.threeAnswer">No. Detection and processing run in the browser on the device that opened this page.</p></details>
+        <details><summary data-i18n-html="faq.fourQuestion">Will every video have the same result?<span>+</span></summary><p data-i18n="faq.fourAnswer">Results depend on the source video, visible mark, frame quality, and browser capabilities. Review the output before using it.</p></details>
+      </div>
+    </section>
   </main>
 
   <footer class="video-footer" data-i18n="footer">GrowthAutomationX · Local browser processing · Results depend on the source video and visible mark.</footer>
 
-  <script>
-    (() => {
-      const copy = {
-        en: {
-          pageTitle: 'GrowthAutomationX — Gemini Logo Remover',
-          'nav.image': 'Image remover', 'nav.video': 'Gemini Logo Remover', 'nav.how': 'How it works',
-          'hero.kicker': 'Browser-local video tool',
-          'hero.title': 'Remove the <em>Gemini logo</em><br>from your video.',
-          'hero.lede': 'Select a supported video, let the browser detect the visible Gemini/Veo mark, then export a processed copy. Your media stays on this device while it is processed.',
-          'hero.pointOne': 'Local processing', 'hero.pointTwo': 'Before / after review', 'hero.pointThree': 'MP4 export',
-          'workspace.comparison': 'Before / after comparison', 'workspace.waiting': 'Waiting for a video', 'workspace.before': 'Before', 'workspace.after': 'After',
-          'workspace.originalEmpty': 'Choose or drop a video to start.', 'workspace.processedEmpty': 'Your processed video will appear here.',
-          'upload.title': 'Choose a video', 'upload.subtitle': 'Click or drag MP4, WebM, or MOV here',
-          'actions.label': 'Automatic cleanup', 'auto.title': 'AI automatic cleanup', 'auto.copy': 'Choose a video to detect the visible mark and prepare the best local preset.',
-          'actions.detect': 'Detect mark', 'actions.reset': 'Reset', 'actions.process': 'Process video', 'actions.download': 'Download MP4',
-          'info.video': 'Video information', 'info.detection': 'Detection result', 'info.waiting': 'Waiting for a video.', 'info.detectFirst': 'Detect a mark or process directly.',
-          'advanced.title': 'Advanced video options', 'advanced.alpha': 'Alpha gain', 'advanced.adaptive': 'Adaptive alpha', 'advanced.quality': 'High-quality cleanup', 'advanced.denoise': 'Cleanup model', 'advanced.review': 'Apply review preset', 'advanced.edge': 'Edge cleanup', 'advanced.residual': 'Residual cleanup', 'advanced.samples': 'Sample frames', 'advanced.bitrate': 'Export bitrate (Mbps)', 'advanced.lowConfidence': 'Allow low-confidence export',
-          'denoise.none': 'Off', 'denoise.edge': 'Canvas edge denoise', 'denoise.band': 'Canvas edge-band denoise', 'denoise.core': 'Canvas core denoise', 'denoise.polish': 'Canvas footprint polish', 'denoise.delta': 'Canvas temporal delta stabilizer', 'denoise.match': 'Canvas temporal match stabilizer', 'denoise.temporal': 'Canvas temporal stabilizer', 'denoise.texture': 'Canvas texture repair', 'denoise.ai': 'AI FDnCNN ONNX',
-          'how.kicker': 'How it works', 'how.title': 'A simple local workflow for supported video.', 'how.stepOneTitle': 'Add a video', 'how.stepOneCopy': 'Select an MP4, WebM, or MOV file from your device.', 'how.stepTwoTitle': 'Detect & process', 'how.stepTwoCopy': 'The browser samples frames, locates the supported mark, and processes frames locally.', 'how.stepThreeTitle': 'Review & export', 'how.stepThreeCopy': 'Compare the two players, then download the processed MP4 when it is ready.',
-          footer: 'GrowthAutomationX · Local browser processing · Results depend on the source video and visible mark.'
-        },
-        vi: {
-          pageTitle: 'GrowthAutomationX — Xóa logo Gemini',
-          'nav.image': 'Xóa logo ảnh', 'nav.video': 'Xóa logo Gemini', 'nav.how': 'Cách hoạt động',
-          'hero.kicker': 'Công cụ video chạy ngay trên trình duyệt',
-          'hero.title': 'Xóa <em>logo Gemini</em><br>khỏi video của bạn.',
-          'hero.lede': 'Chọn video được hỗ trợ, để trình duyệt nhận diện dấu Gemini/Veo hiển thị, sau đó xuất bản sao đã xử lý. Media của bạn chỉ được xử lý trên thiết bị này.',
-          'hero.pointOne': 'Xử lý cục bộ', 'hero.pointTwo': 'So sánh trước / sau', 'hero.pointThree': 'Xuất MP4',
-          'workspace.comparison': 'So sánh trước / sau', 'workspace.waiting': 'Đang chờ video', 'workspace.before': 'Trước', 'workspace.after': 'Sau',
-          'workspace.originalEmpty': 'Chọn hoặc kéo video vào để bắt đầu.', 'workspace.processedEmpty': 'Video đã xử lý sẽ xuất hiện ở đây.',
-          'upload.title': 'Chọn video', 'upload.subtitle': 'Nhấp hoặc kéo MP4, WebM hay MOV vào đây',
-          'actions.label': 'Xử lý tự động', 'auto.title': 'Dọn logo tự động bằng AI', 'auto.copy': 'Chọn video để nhận diện dấu hiển thị và chuẩn bị thiết lập cục bộ phù hợp.',
-          'actions.detect': 'Nhận diện logo', 'actions.reset': 'Đặt lại', 'actions.process': 'Xử lý video', 'actions.download': 'Tải MP4',
-          'info.video': 'Thông tin video', 'info.detection': 'Kết quả nhận diện', 'info.waiting': 'Đang chờ video.', 'info.detectFirst': 'Nhận diện logo hoặc xử lý trực tiếp.',
-          'advanced.title': 'Tùy chọn video nâng cao', 'advanced.alpha': 'Độ mạnh alpha', 'advanced.adaptive': 'Alpha thích ứng', 'advanced.quality': 'Dọn chất lượng cao', 'advanced.denoise': 'Mô hình dọn nhiễu', 'advanced.review': 'Áp dụng cấu hình rà soát', 'advanced.edge': 'Dọn viền', 'advanced.residual': 'Dọn phần còn lại', 'advanced.samples': 'Số khung lấy mẫu', 'advanced.bitrate': 'Bitrate xuất (Mbps)', 'advanced.lowConfidence': 'Cho phép xuất khi độ tin cậy thấp',
-          'denoise.none': 'Tắt', 'denoise.edge': 'Khử nhiễu viền Canvas', 'denoise.band': 'Khử nhiễu dải viền Canvas', 'denoise.core': 'Khử nhiễu lõi Canvas', 'denoise.polish': 'Làm mượt vùng dấu Canvas', 'denoise.delta': 'Ổn định delta thời gian Canvas', 'denoise.match': 'Ổn định khớp thời gian Canvas', 'denoise.temporal': 'Ổn định thời gian Canvas', 'denoise.texture': 'Khôi phục texture Canvas', 'denoise.ai': 'AI FDnCNN ONNX',
-          'how.kicker': 'Cách hoạt động', 'how.title': 'Quy trình cục bộ đơn giản cho video được hỗ trợ.', 'how.stepOneTitle': 'Thêm video', 'how.stepOneCopy': 'Chọn tệp MP4, WebM hoặc MOV từ thiết bị của bạn.', 'how.stepTwoTitle': 'Nhận diện & xử lý', 'how.stepTwoCopy': 'Trình duyệt lấy mẫu khung hình, định vị dấu được hỗ trợ và xử lý cục bộ.', 'how.stepThreeTitle': 'Kiểm tra & xuất', 'how.stepThreeCopy': 'So sánh hai video, sau đó tải MP4 đã xử lý khi sẵn sàng.',
-          footer: 'GrowthAutomationX · Xử lý cục bộ trên trình duyệt · Kết quả phụ thuộc vào video nguồn và dấu hiển thị.'
-        }
-      };
-
-      const defaultLocale = (() => {
-        try { return localStorage.getItem('gax-video-locale') || 'en'; } catch { return 'en'; }
-      })();
-
-      function applyLocale(requestedLocale) {
-        const locale = copy[requestedLocale] ? requestedLocale : 'en';
-        document.documentElement.lang = locale;
-        document.title = copy[locale].pageTitle;
-        document.querySelectorAll('[data-i18n]').forEach((element) => {
-          const value = copy[locale][element.dataset.i18n];
-          if (value !== undefined) element.textContent = value;
-        });
-        document.querySelectorAll('[data-i18n-html]').forEach((element) => {
-          const value = copy[locale][element.dataset.i18nHtml];
-          if (value !== undefined) element.innerHTML = value;
-        });
-        document.querySelectorAll('[data-locale]').forEach((button) => {
-          button.setAttribute('aria-pressed', String(button.dataset.locale === locale));
-        });
-        try { localStorage.setItem('gax-video-locale', locale); } catch {}
-        window.dispatchEvent(new CustomEvent('gax-video-language-change', { detail: { locale } }));
-      }
-
-      window.__gaxVideoLocale = () => document.documentElement.lang === 'vi' ? 'vi' : 'en';
-      document.querySelectorAll('[data-locale]').forEach((button) => {
-        button.addEventListener('click', () => applyLocale(button.dataset.locale));
-      });
-      applyLocale(defaultLocale);
-    })();
-  </script>
+  <script>window.__gaxVideoLocale = () => document.documentElement.lang === 'vi' ? 'vi' : 'en';</script>
   <script src="video-app.js"></script>
 </body>
 </html>

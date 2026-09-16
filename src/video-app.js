@@ -173,17 +173,25 @@ const VIDEO_COPY = Object.freeze({
 });
 
 function t(key, values = {}) {
-    const locale = typeof window.__gaxVideoLocale === 'function' && window.__gaxVideoLocale() === 'vi' ? 'vi' : 'en';
+    const locale = typeof window.__gaxVideoLocale === 'function'
+        ? (window.__gaxVideoLocale() === 'vi' ? 'vi' : 'en')
+        : (document.documentElement.lang === 'vi' ? 'vi' : 'en');
     const message = VIDEO_COPY[locale][key] || VIDEO_COPY.en[key] || key;
     return message.replace(/\{(\w+)\}/g, (token, name) => values[name] ?? token);
 }
+
+function publicAssetUrl(path) {
+    const normalizedPath = String(path || '').replace(/^\.\//, '/');
+    return new URL(normalizedPath.startsWith('/') ? normalizedPath : `/${normalizedPath}`, window.location.origin).href;
+}
+
 const ALLENK_FDNCNN_WASM_PATHS = Object.freeze({
-    mjs: './onnxruntime/ort-wasm-simd-threaded.js',
-    wasm: './onnxruntime/ort-wasm-simd-threaded.wasm'
+    mjs: publicAssetUrl('onnxruntime/ort-wasm-simd-threaded.js'),
+    wasm: publicAssetUrl('onnxruntime/ort-wasm-simd-threaded.wasm')
 });
 const ALLENK_FDNCNN_WEBGPU_WASM_PATHS = Object.freeze({
-    mjs: './onnxruntime/ort-wasm-simd-threaded.asyncify.mjs',
-    wasm: './onnxruntime/ort-wasm-simd-threaded.asyncify.wasm'
+    mjs: publicAssetUrl('onnxruntime/ort-wasm-simd-threaded.asyncify.mjs'),
+    wasm: publicAssetUrl('onnxruntime/ort-wasm-simd-threaded.asyncify.wasm')
 });
 
 const state = {
@@ -279,7 +287,7 @@ async function loadAllenkFdncnnRuntime(runtimeProfile = resolveAllenkFdncnnRunti
     const profile = runtimeProfile || resolveAllenkFdncnnRuntimeProfile();
     if (!allenkFdncnnRuntimePromises.has(profile.id)) {
         const runtimePromise = (async () => {
-            const response = await fetch(profile.modelUrl);
+            const response = await fetch(publicAssetUrl(profile.modelUrl));
             if (!response.ok) {
                 throw new Error(t('modelLoad', { status: response.status }));
             }
@@ -668,7 +676,7 @@ async function routeImageFile(file) {
     try {
         setStatus(t('openingImage'));
         await saveDebugFileHandoff(file, 'image');
-        window.location.assign('./?fileHandoff=1');
+        window.location.assign(document.documentElement.lang === 'vi' ? '/vi?fileHandoff=1' : '/?fileHandoff=1');
     } catch (error) {
         console.error(error);
         setStatus(error.message || t('openingImageFailed'), 'warn');

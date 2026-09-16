@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>https://xoawatermarkvideo.vercel.app/</loc>
+    <lastmod>2026-09-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://xoawatermarkvideo.vercel.app/" />
+    <xhtml:link rel="alternate" hreflang="vi" href="https://xoawatermarkvideo.vercel.app/vi" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://xoawatermarkvideo.vercel.app/" />
+  </url>
+  <url>
+    <loc>https://xoawatermarkvideo.vercel.app/vi</loc>
+    <lastmod>2026-09-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://xoawatermarkvideo.vercel.app/" />
+    <xhtml:link rel="alternate" hreflang="vi" href="https://xoawatermarkvideo.vercel.app/vi" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://xoawatermarkvideo.vercel.app/" />
+  </url>
+  <url>
+    <loc>https://xoawatermarkvideo.vercel.app/video-remover</loc>
+    <lastmod>2026-09-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://xoawatermarkvideo.vercel.app/video-remover" />
+    <xhtml:link rel="alternate" hreflang="vi" href="https://xoawatermarkvideo.vercel.app/vi/video-remover" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://xoawatermarkvideo.vercel.app/video-remover" />
+  </url>
+  <url>
+    <loc>https://xoawatermarkvideo.vercel.app/vi/video-remover</loc>
+    <lastmod>2026-09-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://xoawatermarkvideo.vercel.app/video-remover" />
+    <xhtml:link rel="alternate" hreflang="vi" href="https://xoawatermarkvideo.vercel.app/vi/video-remover" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://xoawatermarkvideo.vercel.app/video-remover" />
+  </url>
+</urlset>

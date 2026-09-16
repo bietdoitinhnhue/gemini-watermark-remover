@@ -1,10 +1,17 @@
 import * as esbuild from 'esbuild';
-import { cpSync, rmSync, existsSync, mkdirSync, watch, statSync, createReadStream, writeFileSync } from 'node:fs';
+import { cpSync, rmSync, existsSync, mkdirSync, watch, statSync, createReadStream, writeFileSync, readFileSync } from 'node:fs';
 import { createRequire } from 'node:module';
 import { createServer } from 'node:http';
 import { createServer as createNetServer } from 'node:net';
-import { extname, join, normalize, resolve } from 'node:path';
+import { dirname, extname, join, normalize, resolve } from 'node:path';
 import { execSync } from 'child_process';
+import {
+  IMAGE_PAGE_COPY,
+  PAGE_METADATA,
+  VIDEO_PAGE_COPY,
+  buildPageJsonLd,
+  getPageUrl
+} from './src/site/pageCopy.js';
 
 const require = createRequire(import.meta.url);
 const pkg = require('./package.json');
@@ -158,11 +165,117 @@ function cleanDistBuildOutputs() {
     'video-app.js',
     'video-remover.html',
     'video-preview.html',
+    'vi',
     'userscript',
     'workers'
   ]) {
     const target = join('dist', entry);
     if (existsSync(target)) rmSync(target, { recursive: true });
+  }
+}
+
+function escapeHtmlAttribute(value) {
+  return String(value)
+    .replace(/&/g, '&amp;')
+    .replace(/"/g, '&quot;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
+}
+
+function replaceStaticLocaleContent(html, copy) {
+  const replaceElement = (attributeName) => html.replace(
+    new RegExp(`<([\\w-]+)([^>]*?\\s${attributeName}="([^"]+)"[^>]*)>([\\s\\S]*?)<\\/\\1>`, 'g'),
+    (match, tagName, attributes, key) => {
+      const value = copy[key];
+      return value === undefined ? match : `<${tagName}${attributes}>${value}</${tagName}>`;
+    }
+  );
+
+  return replaceElement('data-i18n-html').replace(
+    /<([\w-]+)([^>]*?\sdata-i18n="([^"]+)"[^>]*)>([\s\S]*?)<\/\1>/g,
+    (match, tagName, attributes, key) => {
+      const value = copy[key];
+      return value === undefined ? match : `<${tagName}${attributes}>${value}</${tagName}>`;
+    }
+  );
+}
+
+function localizeNavigation(html, locale) {
+  let localized = html;
+  if (locale === 'vi') {
+    localized = localized.replace(/href="[^"]*" data-vi-href="([^"]+)"/g, 'href="$1"');
+  } else {
+    localized = localized.replace(/ data-vi-href="[^"]+"/g, '');
+  }
+  return localized.replace(
+    `data-locale="${locale}"`,
+    `data-locale="${locale}" aria-current="page"`
+  );
+}
+
+function localizeAssetPaths(html, page, locale) {
+  if (locale !== 'vi') return html;
+  const prefix = page === 'image' ? '../' : '../../';
+  return html
+    .replace('href="growthautomationx.css"', `href="${prefix}growthautomationx.css"`)
+    .replace('href="video-remover.css"', `href="${prefix}video-remover.css"`)
+    .replace('src="app.js"', `src="${prefix}app.js"`)
+    .replace('src="video-app.js"', `src="${prefix}video-app.js"`);
+}
+
+function fillSeoPlaceholders(html, page, locale) {
+  const meta = PAGE_METADATA[page][locale];
+  const alternateLocale = locale === 'vi' ? 'en_US' : 'vi_VN';
+  const replacements = {
+    '__PAGE_TITLE__': meta.title,
+    '__PAGE_DESCRIPTION__': meta.description,
+    '__PAGE_KEYWORDS__': meta.keywords,
+    '__PAGE_URL__': getPageUrl(page, locale),
+    '__PAGE_EN_URL__': getPageUrl(page, 'en'),
+    '__PAGE_VI_URL__': getPageUrl(page, 'vi'),
+    '__PAGE_OG_LOCALE__': meta.locale,
+    '__PAGE_OG_ALTERNATE_LOCALE__': alternateLocale,
+    '__PAGE_OG_TITLE__': meta.ogTitle,
+    '__PAGE_OG_DESCRIPTION__': meta.ogDescription,
+    '__PAGE_OG_IMAGE__': meta.ogImage,
+    '__PAGE_OG_IMAGE_ALT__': meta.ogImageAlt
+  };
+
+  let rendered = html.replace('<html lang="en">', `<html lang="${locale}">`);
+  for (const [placeholder, value] of Object.entries(replacements)) {
+    rendered = rendered.split(placeholder).join(escapeHtmlAttribute(value));
+  }
+
+  const jsonLd = JSON.stringify(buildPageJsonLd(page, locale)).replace(/</g, '\\u003c');
+  return rendered.split('__PAGE_JSONLD__').join(jsonLd);
+}
+
+function buildLocalizedStaticPages() {
+  const pageDefinitions = [
+    { page: 'image', source: 'index.html', viOutput: join('vi', 'index.html'), copy: IMAGE_PAGE_COPY },
+    { page: 'video', source: 'video-remover.html', viOutput: join('vi', 'video-remover.html'), copy: VIDEO_PAGE_COPY }
+  ];
+
+  for (const definition of pageDefinitions) {
+    const sourcePath = join('dist', definition.source);
+    const sourceHtml = readFileSync(sourcePath, 'utf8');
+    const render = (locale) => localizeAssetPaths(
+      fillSeoPlaceholders(
+        localizeNavigation(
+          replaceStaticLocaleContent(sourceHtml, definition.copy[locale]),
+          locale
+        ),
+        definition.page,
+        locale
+      ),
+      definition.page,
+      locale
+    );
+
+    writeFileSync(sourcePath, render('en'));
+    const viOutputPath = join('dist', definition.viOutput);
+    mkdirSync(dirname(viOutputPath), { recursive: true });
+    writeFileSync(viOutputPath, render('vi'));
   }
 }
 
@@ -173,6 +286,7 @@ const copyAssetsPlugin = {
       console.log('📂 Syncing static assets...');
       try {
         cpSync('public', 'dist', { recursive: true });
+        buildLocalizedStaticPages();
       } catch (err) {
         console.error('❌ Asset copy failed:', err);
       }

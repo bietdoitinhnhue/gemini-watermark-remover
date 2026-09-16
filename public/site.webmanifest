@@ -1,0 +1,9 @@
+{
+  "name": "GrowthAutomationX Media Tools",
+  "short_name": "GAx Tools",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#090d18",
+  "theme_color": "#0b1020",
+  "description": "Browser-local image and video workflows by GrowthAutomationX."
+}

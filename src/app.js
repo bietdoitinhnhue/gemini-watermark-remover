@@ -21,32 +21,19 @@ import {
     getDebugFileKind,
     saveDebugFileHandoff
 } from './shared/debugFileHandoff.js';
+import { IMAGE_RUNTIME_COPY } from './site/pageCopy.js';
 
-const TEXT = {
-    loading: 'Preparing local processing…',
-    size: 'Dimensions',
-    watermark: 'Detected pattern',
-    position: 'Position',
-    status: 'Status',
-    removed: 'Processing complete',
-    skipped: 'No supported pattern detected — original preserved',
-    visibleResidual: 'Best result generated — review the marked area',
-    possibleContentDamage: 'Best result generated — inspect the result',
-    mixedQualityWarning: 'Best result generated — minor artifacts may remain',
-    unsupported: 'This browser does not support image copy',
-    copied: 'Copied',
-    copy: 'Copy result',
-    copyFailed: 'Could not copy the result',
-    unsupportedFile: 'Choose JPG, PNG or WebP images, or MP4/WebM/MOV video.',
-    fileTooLarge: 'Images larger than 20 MB are not supported in this browser flow. Video opens in the beta workspace.',
-    skippedLargeImages: 'Images larger than 20 MB were skipped.',
-    handoffVideo: 'Opening the video beta workspace…',
-    progress: 'Processing',
-    pending: 'Waiting to process',
-    loadingImage: 'Reading image…',
-    processing: 'Processing locally…',
-    processFailed: 'Could not process this image'
-};
+function getLocale() {
+    return document.documentElement.lang === 'vi' ? 'vi' : 'en';
+}
+
+function t(key) {
+    return IMAGE_RUNTIME_COPY[getLocale()][key] || IMAGE_RUNTIME_COPY.en[key] || key;
+}
+
+function localizedRoute(path) {
+    return getLocale() === 'vi' ? `/vi${path}` : path;
+}
 
 let enginePromise = null;
 let workerClient = null;
@@ -120,12 +107,12 @@ function cleanupBatchItems() {
 
 async function init() {
     try {
-        showLoading(TEXT.loading);
+        showLoading(t('loading'));
 
         if (canUseWatermarkWorker()) {
             try {
                 workerClient = new WatermarkWorkerClient({
-                    workerUrl: './workers/watermark-worker.js'
+                    workerUrl: '/workers/watermark-worker.js'
                 });
             } catch (workerError) {
                 console.warn('worker unavailable, fallback to main thread:', workerError);
@@ -228,18 +215,18 @@ async function handleFiles(files) {
 
     const imageFiles = list.filter((file) => getDebugFileKind(file) === 'image');
     if (imageFiles.length === 0) {
-        setStatusMessage(TEXT.unsupportedFile, 'warn');
+        setStatusMessage(t('unsupportedFile'), 'warn');
         return;
     }
 
     const validImageFiles = imageFiles.filter((file) => file.size <= 20 * 1024 * 1024);
     if (validImageFiles.length === 0) {
-        setStatusMessage(TEXT.fileTooLarge, 'warn');
+        setStatusMessage(t('fileTooLarge'), 'warn');
         return;
     }
 
     if (validImageFiles.length < imageFiles.length) {
-        setStatusMessage(TEXT.skippedLargeImages, 'warn');
+        setStatusMessage(t('skippedLargeImages'), 'warn');
     }
 
     if (validImageFiles.length > 1) {
@@ -299,13 +286,13 @@ function processBatch(files) {
 
 async function routeVideoFile(file) {
     try {
-        showLoading(TEXT.handoffVideo);
+        showLoading(t('handoffVideo'));
         await saveDebugFileHandoff(file, 'video');
-        window.location.assign('./video-remover?fileHandoff=1');
+        window.location.assign(localizedRoute('/video-remover?fileHandoff=1'));
     } catch (error) {
         hideLoading();
         console.error(error);
-        setStatusMessage(error.message || 'Could not open the video workspace. Please choose the file again from the video page.', 'warn');
+        setStatusMessage(error.message || t('handoffVideoFailed'), 'warn');
     }
 }
 
@@ -320,7 +307,7 @@ async function consumePendingImageHandoff() {
         window.history.replaceState(null, '', window.location.pathname);
     } catch (error) {
         console.warn('image handoff unavailable:', error);
-        setStatusMessage(error.message || '读取图片暂存失败，请重新选择文件。', 'warn');
+        setStatusMessage(error.message || t('handoffImageFailed'), 'warn');
     }
 }
 
@@ -334,16 +321,16 @@ function renderSingleImageMeta(item) {
     if (!watermarkInfo) return;
 
     originalInfo.innerHTML = `
-        <p>${TEXT.size}: ${item.originalImg.width}x${item.originalImg.height}</p>
-        <p>${TEXT.watermark}: ${watermarkInfo.size}x${watermarkInfo.size}</p>
-        <p>${TEXT.position}: (${watermarkInfo.position.x},${watermarkInfo.position.y})</p>
+        <p>${t('size')}: ${item.originalImg.width}x${item.originalImg.height}</p>
+        <p>${t('watermark')}: ${watermarkInfo.size}x${watermarkInfo.size}</p>
+        <p>${t('position')}: (${watermarkInfo.position.x},${watermarkInfo.position.y})</p>
     `;
 }
 
 function getProcessedStatusPresentation(item) {
     const presentation = resolveProcessedStatusPresentation(item);
     return {
-        label: TEXT[presentation.messageKey],
+        label: t(presentation.messageKey),
         tone: presentation.tone
     };
 }
@@ -359,10 +346,10 @@ function renderSingleProcessedMeta(item) {
     const statusPresentation = getProcessedStatusPresentation(item);
 
     processedInfo.innerHTML = `
-        <p>${TEXT.size}: ${item.originalImg.width}x${item.originalImg.height}</p>
-        ${showWatermarkInfo ? `<p>${TEXT.watermark}: ${watermarkInfo.size}x${watermarkInfo.size}</p>` : ''}
-        ${showWatermarkInfo ? `<p>${TEXT.position}: (${watermarkInfo.position.x},${watermarkInfo.position.y})</p>` : ''}
-        <p class="${statusPresentation.tone === 'warning' ? 'text-warning' : ''}">${TEXT.status}: ${statusPresentation.label}</p>
+        <p>${t('size')}: ${item.originalImg.width}x${item.originalImg.height}</p>
+        ${showWatermarkInfo ? `<p>${t('watermark')}: ${watermarkInfo.size}x${watermarkInfo.size}</p>` : ''}
+        ${showWatermarkInfo ? `<p>${t('position')}: (${watermarkInfo.position.x},${watermarkInfo.position.y})</p>` : ''}
+        <p class="${statusPresentation.tone === 'warning' ? 'text-warning' : ''}">${t('status')}: ${statusPresentation.label}</p>
     `;
 }
 
@@ -405,11 +392,11 @@ function createImageCard(item) {
     card.innerHTML = `
         <div class="batch-comparison">
             <div class="batch-pane original">
-                <span class="batch-pane-label">原图</span>
+                <span class="batch-pane-label">${t('batchBefore')}</span>
                 <img id="original-${item.id}" class="batch-image" draggable="false" alt="" />
             </div>
             <div class="batch-pane processed">
-                <span class="batch-pane-label">处理后</span>
+                <span class="batch-pane-label">${t('batchAfter')}</span>
                 <img id="processed-${item.id}" class="batch-image" draggable="false" alt="" />
             </div>
         </div>
@@ -420,10 +407,10 @@ function createImageCard(item) {
         <div class="batch-actions">
             <button id="copy-${item.id}" class="batch-button primary" style="display: none;">
                 <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m-1 10H8m4-3H8m1.5 6H8"></path></svg>
-                <span>${TEXT.copy}</span>
+                <span>${t('copy')}</span>
             </button>
             <button id="download-${item.id}" class="batch-button secondary" style="display: none;">
-                下载结果
+                ${t('download')}
             </button>
         </div>
     `;
@@ -448,16 +435,16 @@ function renderImageCardStatus(item) {
     }
 
     const labels = {
-        pending: TEXT.pending,
-        loading: TEXT.loadingImage,
-        processing: TEXT.processing,
-        error: TEXT.processFailed
+        pending: t('pending'),
+        loading: t('loadingImage'),
+        processing: t('processing'),
+        error: t('processFailed')
     };
-    statusEl.textContent = labels[item.status] || TEXT.pending;
+    statusEl.textContent = labels[item.status] || t('pending');
 }
 
 function updateProgress() {
-    progressText.textContent = `${TEXT.progress}: ${processedCount}/${imageQueue.length}`;
+    progressText.textContent = `${t('progress')}: ${processedCount}/${imageQueue.length}`;
 }
 
 async function processQueue(batchId) {
@@ -539,7 +526,7 @@ async function processImageWithBestPath(file, fallbackImage, options = {}) {
 
 async function copyImage(item, targetBtn = copyBtn) {
     if (!navigator.clipboard || !window.ClipboardItem) {
-        setStatusMessage(TEXT.unsupported, 'warn');
+        setStatusMessage(t('unsupported'), 'warn');
         return;
     }
 
@@ -552,16 +539,16 @@ async function copyImage(item, targetBtn = copyBtn) {
         const svg = targetBtn.querySelector('svg');
         const originalSvgPath = svg.innerHTML;
 
-        span.textContent = TEXT.copied;
+        span.textContent = t('copied');
         svg.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>';
 
         setTimeout(() => {
-            span.textContent = TEXT.copy;
+            span.textContent = t('copy');
             svg.innerHTML = originalSvgPath;
         }, 2000);
     } catch (err) {
         console.error('Failed to copy image: ', err);
-        setStatusMessage(TEXT.copyFailed, 'warn');
+        setStatusMessage(t('copyFailed'), 'warn');
     }
 }
 
