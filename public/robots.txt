@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://xoawatermarkvideo.vercel.app/sitemap.xml
+Sitemap: https://tools.growthautomationx.com/sitemap.xml

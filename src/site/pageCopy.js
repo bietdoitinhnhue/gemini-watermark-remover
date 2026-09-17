@@ -1,4 +1,7 @@
-export const SITE_ORIGIN = 'https://xoawatermarkvideo.vercel.app';
+export const SITE_ORIGIN = 'https://tools.growthautomationx.com';
+
+// A versioned URL prompts social crawlers to refresh a previously cached card.
+const SOCIAL_IMAGE_VERSION = '20260917';
 
 export const IMAGE_RUNTIME_COPY = Object.freeze({
     en: {
@@ -347,7 +350,7 @@ export const PAGE_METADATA = Object.freeze({
             keywords: 'Gemini image logo remover, browser-local image processing, JPG PNG WebP image workflow',
             ogTitle: 'Gemini Image Logo Remover | GrowthAutomationX',
             ogDescription: 'A browser-local workspace for supported JPG, PNG, and WebP images. Select, process, review, and download on your device.',
-            ogImage: `${SITE_ORIGIN}/assets/og-image-remover-gax.jpg`,
+            ogImage: `${SITE_ORIGIN}/assets/og-image-remover-gax.jpg?v=${SOCIAL_IMAGE_VERSION}`,
             ogImageAlt: 'GrowthAutomationX Gemini Image Logo Remover browser-local image workflow',
             locale: 'en_US',
             path: '/',
@@ -360,7 +363,7 @@ export const PAGE_METADATA = Object.freeze({
             keywords: 'Gemini image logo remover, browser-local image processing, JPG PNG WebP image workflow',
             ogTitle: 'Gemini Image Logo Remover | GrowthAutomationX',
             ogDescription: 'A browser-local workspace for supported JPG, PNG, and WebP images. Select, process, review, and download on your device.',
-            ogImage: `${SITE_ORIGIN}/assets/og-image-remover-gax.jpg`,
+            ogImage: `${SITE_ORIGIN}/assets/og-image-remover-gax.jpg?v=${SOCIAL_IMAGE_VERSION}`,
             ogImageAlt: 'GrowthAutomationX Gemini Image Logo Remover browser-local image workflow',
             locale: 'vi_VN',
             path: '/vi',
@@ -375,7 +378,7 @@ export const PAGE_METADATA = Object.freeze({
             keywords: 'Gemini video logo remover, Veo video processing, 16:9 video, 9:16 video, browser-local video workflow',
             ogTitle: 'Gemini Video Logo Remover for 16:9 & 9:16 | GrowthAutomationX',
             ogDescription: 'A browser-local video workspace for supported MP4, WebM, and MOV files with 16:9 and 9:16 review.',
-            ogImage: `${SITE_ORIGIN}/assets/og-video-remover-gax.jpg`,
+            ogImage: `${SITE_ORIGIN}/assets/og-video-remover-gax.jpg?v=${SOCIAL_IMAGE_VERSION}`,
             ogImageAlt: 'GrowthAutomationX Gemini Video Logo Remover for 16:9 and 9:16 video',
             locale: 'en_US',
             path: '/video-remover',
@@ -388,7 +391,7 @@ export const PAGE_METADATA = Object.freeze({
             keywords: 'Gemini video logo remover, Veo video processing, 16:9 video, 9:16 video, browser-local video workflow',
             ogTitle: 'Gemini Video Logo Remover for 16:9 & 9:16 | GrowthAutomationX',
             ogDescription: 'A browser-local video workspace for supported MP4, WebM, and MOV files with 16:9 and 9:16 review.',
-            ogImage: `${SITE_ORIGIN}/assets/og-video-remover-gax.jpg`,
+            ogImage: `${SITE_ORIGIN}/assets/og-video-remover-gax.jpg?v=${SOCIAL_IMAGE_VERSION}`,
             ogImageAlt: 'GrowthAutomationX Gemini Video Logo Remover for 16:9 and 9:16 video',
             locale: 'vi_VN',
             path: '/vi/video-remover',
